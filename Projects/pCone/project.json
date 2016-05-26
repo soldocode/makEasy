@@ -1,0 +1,46 @@
+{
+  "name": "Tronco di Cono",
+  "title": "TRONCO DI CONO",
+  "cod":"TRCO",
+  "form_data":[
+  {
+    "class": "number",
+    "label": "spessore",
+    "value": 5,
+    "width": 30,
+    "name": "thickness",
+    "args": {}
+  },
+  {
+    "class": "number",
+    "label": "diametro maggiore",
+    "value": 500,
+    "width": 40,
+    "name": "dia_max",
+    "args": {}
+  },
+  {
+    "class": "number",
+    "label": "diametro minore",
+    "value": 200,
+    "width": 40,
+    "name": "dia_min",
+    "args": {}
+  },
+  {
+    "class": "number",
+    "label": "altezza",
+    "value": 300,
+    "width": 40,
+    "name": "height",
+    "args": {}
+  },
+    {
+    "class": "number",
+    "label": "numero parti",
+    "value": 1,
+    "width": 20,
+    "name": "parts",
+    "args": {}
+  }
+]}

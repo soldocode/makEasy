@@ -1,0 +1,93 @@
+{
+  "Class": "WorkPlan",
+  "id": 999,
+  "classWork": "PlasmaCut",
+  "param": {
+    "materials": {
+      "class": "sheet",
+      "lenght": 3000,
+      "height": 1500,
+      "thickness": 10,
+      "margins": {
+        "left": 10,
+        "right": 10,
+        "top": 10,
+        "down": 10
+      }
+    },
+    "workspeed": 1500,
+    "piercetime": 10
+  },
+  "tTimes": {
+    "Tload": 10,
+    "Ttool": 5,
+    "Twork": 20
+  },
+  "items": [
+    {
+      "id": 12,
+      "param": {
+        "xpos": 10,
+        "ypos": 10,
+        "inwork": "parametri ingresso lavorazione",
+        "outwork": "parametri uscita lavorazione"
+      },
+      "tTimes": ""
+    },
+    {
+      "id": 30,
+      "param": {
+        "xpos": 100,
+        "ypos": 10
+      },
+      "tTimes": ""
+    }
+  ],
+  "worksequence": [
+    {
+      "action": "'load'",
+      "parameters": 1,
+      "time": 10
+    },
+    {
+      "action": "'prog'",
+      "parameters": 2,
+      "time": 10
+    },
+    {
+      "action": "'tool'",
+      "parameters": 1,
+      "time": 10
+    },
+    {
+      "action": "'move'",
+      "parameters": 1,
+      "time": 15
+    },
+    {
+      "action": "'work'",
+      "parameters": 1500,
+      "time": 60
+    },
+    {
+      "action": "'move'",
+      "parameters": 2,
+      "time": 10
+    },
+    {
+      "action": "'work'",
+      "parameters": 1500,
+      "time": 60
+    },
+    {
+      "action": "'move'",
+      "parameters": 0,
+      "time": 60
+    },
+    {
+      "action": "'down'",
+      "parameters": 2,
+      "time": 60
+    }
+  ]
+}

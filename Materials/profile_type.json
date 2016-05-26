@@ -1,0 +1,23 @@
+{
+  "P": {
+    "name": "Piatto"
+  },
+  "A": {
+    "name": "Angolare"
+  },
+  "L": {
+    "name": "Elle"
+  },
+  "TT": {
+    "name": "Tubo Tondo"
+  },
+  "TQ": {
+    "name": "Tubo Quadro"
+  },
+  "TR": {
+    "name": "Tubo Rettangolare"
+  },
+  "U": {
+    "name": "UNP"
+  }
+}

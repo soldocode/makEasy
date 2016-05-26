@@ -1,0 +1,22 @@
+{
+  "S235JR": {
+    "name": "S235JR (FE360B)",
+    "weight": 7.9
+  },
+  "S275JR": {
+    "name": "S275JR (FE430B)",
+    "weight": 7.9
+  },
+  "S355JR": {
+    "name": "S355JR (FE510C)",
+    "weight": 7.9
+  },
+  "AISI304": {
+    "name": "AISI304",
+    "weight": 7.9
+  },
+  "AISI316": {
+    "name": "AISI316",
+    "weight": 7.9
+  }
+}

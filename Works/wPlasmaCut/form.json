@@ -1,0 +1,137 @@
+{
+  "title": "taglio plasma",
+  "form_data": [
+    {
+      "class": "subform",
+      "label": "dimensioni lamiera",
+      "id": "dimlam",
+      "visible": "true",
+      "form_data": [
+        {
+          "class": "number",
+          "label": "lunghezza",
+          "value": 3000,
+          "width": 40,
+          "name": "swidth",
+          "args": {"onchange":"makeSheet()"}
+        },
+        {
+          "class": "number",
+          "label": "altezza",
+          "value": 1500,
+          "width": 40,
+          "name": "altezza",
+          "args": {"onchange":"makeSheet()"}
+        },
+        {
+          "class": "number",
+          "label": "spessore",
+          "value": 10,
+          "width": 30,
+          "name": "spessore",
+          "args": {}
+        }
+      ]
+    },
+    {
+      "class": "subform",
+      "label": "parametri plasma",
+      "id": "parplasma",
+      "visible": "false",
+      "form_data": [
+        {
+          "class": "number",
+          "label": "velocita di taglio",
+          "value": 2500,
+          "width": 40,
+          "name": "veltaglio",
+          "args": {}
+        },
+        {
+          "class": "number",
+          "label": "tempo di sfondamento",
+          "value": 1.5,
+          "width": 30,
+          "name": "tsfond",
+          "args": {}
+        }
+      ]
+    },
+    {
+      "class": "table-fields",
+      "label": "elenco sagome",
+      "id": "listitems",
+      "visible": "false",
+      "col_width": [
+        2,
+        55,
+        15,
+        18
+      ],
+      "col_header": [
+        "id",
+        "articolo",
+        "richiesti",
+        "lavorati"
+      ],
+      "buttons": [
+        {
+          "label": "Carica Articolo",
+          "class": "load",
+          "onclick": "loaditems",
+          "args": {}
+        },
+        {
+          "label": "Svuota Tutto",
+          "class": "generic",
+          "onclick": "clearall()",
+          "args": {}
+        }
+      ]
+    },
+    {
+      "class": "table-fields",
+      "label": "posizione sagome",
+      "id": "positions",
+      "visible": "false",
+      "col_width": [
+        2,
+        53,
+        15,
+        15,
+        15
+      ],
+      "col_header": [
+        "id",
+        "articolo",
+        "x",
+        "y",
+        "gradi"
+      ],
+      "buttons": [
+        {
+          "label": "Inserisci",
+          "class": "generic",
+          "onclick": "insertItem()",
+          "args": {},
+          "id":"insert"
+        },
+        {
+          "label": "Elimina ",
+          "class": "generic",
+          "onclick": "deleteItem()",
+          "args": {},
+          "id":"delete"
+
+        }
+      ]
+    },
+    {
+      "class": "subform",
+      "label": "sequenza lavoro",
+      "id": "workpath",
+      "visible": "false",
+      "form_data": []
+    }
+  ]
+}

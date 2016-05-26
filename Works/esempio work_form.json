@@ -1,0 +1,53 @@
+{
+  "name": "PlasmaCut",
+  "form_data": [
+    {
+      "class": "subform",
+      "label": "Lamiera",
+      "id": "sheet",
+      "form": [
+        {
+          "class": "list",
+          "label": "materiale",
+          "name": "classmaterial",
+          "width": 20,
+          "value": 1,
+          "values": [
+            {
+              "text": "S275JR",
+              "value": "1"
+            },
+            {
+              "text": "AISI304",
+              "value": "2"
+            }
+          ]
+        },
+        {
+          "class": "number",
+          "label": "spessore",
+          "value": 10,
+          "width": 30,
+          "name": "thickness",
+          "args": {}
+        },
+        {
+          "class": "number",
+          "label": "altezza",
+          "value": 500,
+          "width": 40,
+          "name": "height",
+          "args": {}
+        },
+        {
+          "class": "number",
+          "label": "larghezza",
+          "value": 500,
+          "width": 40,
+          "name": "width",
+          "args": {}
+        }
+      ]
+    }
+  ]
+}

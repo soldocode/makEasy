@@ -1,0 +1,140 @@
+{
+  "name": "Piastra",
+  "title": "PIASTRE TAGLIATE A PLASMA",
+  "cod":"PSFO",
+  "form_data": [
+    {
+      "class": "switch-fields",
+      "label": "sagoma piastra",
+      "name": "shape",
+      "width": 20,
+      "value": 1,
+      "values": [
+        {
+          "text": "Rettangolare",
+          "value": "1"
+        },
+        {
+          "text": "Circolare",
+          "value": "2"
+        }
+      ],
+      "switch": {
+        "1": {
+          "on": [
+            "misure2",
+            "misure3"
+          ],
+          "off": [
+            "misure4"
+          ]
+        },
+        "2": {
+          "on": [
+            "misure4"
+          ],
+          "off": [
+            "misure2",
+            "misure3"
+          ]
+        }
+      }
+    },
+    {
+      "class": "number",
+      "label": "spessore",
+      "value": 10,
+      "width": 30,
+      "name": "misure1",
+      "args": {}
+    },
+    {
+      "class": "number",
+      "label": "larghezza",
+      "value": 500,
+      "width": 40,
+      "name": "misure2",
+      "args": {}
+    },
+    {
+      "class": "number",
+      "label": "altezza",
+      "value": 500,
+      "width": 40,
+      "name": "misure3",
+      "args": {}
+    },
+    {
+      "class": "number",
+      "label": "diametro",
+      "value": 500,
+      "width": 40,
+      "name": "misure4",
+      "args": {
+        "style": "display: none;"
+      }
+    },
+    {
+      "class": "multiple-subform",
+      "label": "foratura",
+      "id": "holes",
+      "count": -1,
+      "form": [
+        {
+          "class": "list",
+          "label": "lavorazione",
+          "name": "work",
+          "width": 50,
+          "args": {},
+          "values": [
+            {
+              "text": "Taglio Plasma",
+              "value": "1"
+            },
+            {
+              "text": "Foratura",
+              "value": "2",
+              "": ""
+            }
+          ]
+        },
+        {
+          "class": "number",
+          "label": "Ø foro",
+          "value": 0,
+          "width": 40,
+          "name": "dia",
+          "args": {}
+        },
+        {
+          "class": "number",
+          "label": "interasse foratura",
+          "value": 0,
+          "width": 40,
+          "name": "intfo",
+          "args": {}
+        },
+        {
+          "class": "number",
+          "label": "numero fori",
+          "value": 0,
+          "width": 40,
+          "name": "num",
+          "args": {}
+        },
+        {
+          "class": "number",
+          "label": "angolo primo foro",
+          "value": 0,
+          "width": 40,
+          "name": "par",
+          "args": {}
+        }
+      ],
+      "add_button": {
+        "label": "Aggiungi Foratura",
+        "args": {}
+      }
+    }
+  ]
+}

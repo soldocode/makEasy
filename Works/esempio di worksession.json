@@ -1,0 +1,57 @@
+{
+  "Class": "'WorkSession?'",
+  "id": "999",
+  "classWork": "'PlasmaCut'",
+  "tTimes": {
+    "Tload": 10,
+    "Ttool": 5,
+    "Twork": 20
+  },
+  "items": [
+    {
+      "iditem": 12,
+      "required": 1,
+      "processed": 1,
+      "tTimes": ""
+    },
+    {
+      "iditem": 30,
+      "required": 2,
+      "processed": 2,
+      "tTimes": ""
+    },
+    {
+      "iditem": 255,
+      "required": 10,
+      "processed": 8,
+      "tTimes": ""
+    }
+  ],
+  "jobsequence": [
+    {
+      "action": "'load'",
+      "parameters": 10,
+      "time": 10
+    },
+    {
+      "action": "'prog'",
+      "parameters": 10,
+      "time": 10
+    },
+    {
+      "action": "'tool'",
+      "parameters": 1,
+      "time": 10
+    },
+    {
+      "action": "'move'",
+      "parameters": "100,30",
+      "time": 15
+    },
+    {
+      "action": "'work'",
+      "parameters": "1500,200",
+      "time": 60
+    }
+  ]
+}
