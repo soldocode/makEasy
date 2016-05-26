@@ -1,4 +1,4 @@
-plasma cut
+plasma_cut
 ->bbs plasma
   dim 2500x6000
   tcWork=10sec
@@ -17,5 +17,9 @@ plasma cut
   speed:{'FE':{2mm:3500,4mm:3000,6:2500,8:2000,10:1500},
          'AISI304':{10mm:1000}}
   
+  
+plate_rolls  
+-> faccin
+  dim 2500
   
   
