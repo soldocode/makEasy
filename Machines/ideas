@@ -1,0 +1,21 @@
+plasma cut
+->bbs plasma
+  dim 2500x6000
+  tcWork=10sec
+  tpWork=lenght_of_path/speed
+  tcMove=1 sec
+  tpMove=dist_of_positioning/move_speed
+  tcLoad=20sec+10sec*number_of_pieces
+  tpLoad=weight*download_speed
+  tcTool=200sec+300sec(marcatore)
+  move_speed=10000mm/min
+  download_speed:{1kg:10sec,
+                  25kg:30sec,
+                  50kg:50sec,
+                  300kg:120sec,
+                  3000kg:180sec}
+  speed:{'FE':{2mm:3500,4mm:3000,6:2500,8:2000,10:1500},
+         'AISI304':{10mm:1000}}
+  
+  
+  
