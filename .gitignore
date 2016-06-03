@@ -47,4 +47,6 @@ Temporary Items
 .apdisk
 
 #Python files
-#.pyc
+*.pyc
+Works/wPlasmaCut/example.meWork
+makEasy.xlsx
