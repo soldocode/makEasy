@@ -22,7 +22,7 @@ def WorkOut(args):
     tMove=1
     tLook=2
         
-    for i in paths
+    for i in paths:
       tWork+=0.5
     
     
