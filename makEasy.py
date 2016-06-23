@@ -1,7 +1,8 @@
 #***************************************************************************
 #*                                                                         *
-#*   Copyright (c) 2015                                                    *
+#*   makEasy - python module - 2015                                        *
 #*   Riccardo Soldini <riccardo.soldini@gmail.com>                         *
+#*   Last Update:23/06/16
 #*                                                                         *
 #***************************************************************************
 
@@ -161,9 +162,32 @@ class Work(object):
         self.Title = None
 
 
-workset = {}
+class WorkPlan(object):
+    def __init__(self,
+                 ID=None,
+                 Title="WP",
+                 Class=None):
+        self.ID = ID
+        self.Title = Title
+        self.Class = Class
+        self.Machine = None
+        self.Items= []
+        self.Positions = {}
+        self.JobSequence = {}
+        self.Times={}
+        
+    def addItem(self,Item=None):
+        # verificare se nel workflow dell'item è presente la classe di lavoro in oggetto
+        # se affermativo inserire item con i dati di lavorazione nell'elenco
+        
+    def removeItem(self,IdItem=None):
+        # cercare nell'elenco l'item passato ed eliminare
+
+
+#workset = {} ELIMINARE???
 projectLibrary={}
 WORKSET = {}
+MATERIALS ={}
 
 from Works import *
 from Projects import *
