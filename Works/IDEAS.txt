@@ -1,0 +1,10 @@
+Cosa deve contenere un PianoDiLavoro?:
+- parametri generali (classe di Lavorazione,???) 
+- parametri macchina
+- elenco articoli da lavorare con quantità
+- disposizione articoli (2D,3D,STACK)
+- sequenze di lavorazione (AUTO,MANUAL)
+- tempi di lavoro (LOAD,TOOL,MOVE,WORK,LOOK)
+
+
+*.meWPlan
