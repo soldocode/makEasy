@@ -10,7 +10,7 @@ def WorkOut(args):
 
     tLoad=5+5
     tTool=5+0
-    tWork=1+cLen/80
+    tWork=1+cLen/100
     tMove=5+cWeight/20
     tLook=5+cWeight/200
     

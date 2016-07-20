@@ -176,11 +176,12 @@ class WorkPlan(object):
         self.JobSequence = {}
         self.Times={}
         
-    def addItem(self,Item=None):
-        # verificare se nel workflow dell'item è presente la classe di lavoro in oggetto
-        # se affermativo inserire item con i dati di lavorazione nell'elenco
+   # def addItem(self,Item=None):
+   #     self.add=1
+
         
-    def removeItem(self,IdItem=None):
+   # def removeItem(self,IdItem=None):
+   #     self.remove=1
         # cercare nell'elenco l'item passato ed eliminare
 
 
