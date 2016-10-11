@@ -2,14 +2,13 @@
 #*                                                                         *
 #*   makEasy - python module - 2015                                        *
 #*   Riccardo Soldini <riccardo.soldini@gmail.com>                         *
-#*   Last Update:10/10/16
+#*   Last Update:23/06/16
 #*                                                                         *
 #***************************************************************************
 
 import jsonpickle
 from dxfwrite import DXFEngine as dxf
-from mystuff import geoFun
-import math
+import geoFun, math
 import cStringIO
 
 jsonpickle.set_encoder_options('simplejson', indent=4) 
