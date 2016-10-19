@@ -100,19 +100,21 @@ class Item(object):
         if len(self.WorkFlow)>0:
             works=self.WorkFlow
             for work in works:
+                
                 if work['WorkClass']=='Taglio Plasma':
                     nodes=work['Nodes']
-                    #print nodes
+                    
                     chains=work['Chain']
                     if len(chains)>0:
                         for chain in chains:
                             for geo in chain:
-                                #print geo
+                                
                                 if geo[0]=='Line':
                                     drawing.add(dxf.line((nodes[geo[1]]['X'],
                                                           nodes[geo[1]]['Y']),
                                                          (nodes[geo[2]]['X'],
                                                           nodes[geo[2]]['Y'])))
+                                    print drawing
                                 elif geo[0]=='Arc':
                                     arcgen=geoFun.CircleFrom3Points([nodes[geo[1]]['X'],
                                                                      nodes[geo[1]]['Y']],
@@ -138,9 +140,10 @@ class Item(object):
                                     radius=nodes[geo[2]]['X']-nodes[geo[1]]['X']
                                     drawing.add(dxf.circle(radius,(nodes[geo[1]]['X'], nodes[geo[1]]['Y'])))
 
-
+        
         drawing.save_to_fileobj(output)
         dxf_result=[output.getvalue()]
+        
         return dxf_result
 
 

@@ -159,55 +159,9 @@ def Execute(self,parameters):
     return item
 
 
-def ExportDXF(self,data):
-    output = cStringIO.StringIO()
-    drawing = dxf.drawing('item.dxf')
-
-
-    if len(self.WorkFlow)>0:
-            works=self.WorkFlow
-            for work in works:
-                if work['WorkClass']=='Taglio Plasma':
-                    nodes=work['Nodes']
-                    print nodes
-                    chains=work['Chain']
-                    if len(chains)>0:
-                        for chain in chains:
-                            for geo in chain:
-                                print geo
-                                if geo[0]=='Line':
-                                    drawing.add(dxf.line((nodes[geo[1]]['X'],
-                                                          nodes[geo[1]]['Y']),
-                                                         (nodes[geo[2]]['X'],
-                                                          nodes[geo[2]]['Y'])))
-                                elif geo[0]=='Arc':
-                                    arcgen=geoFun.CircleFrom3Points([nodes[geo[1]]['X'],
-                                                                     nodes[geo[1]]['Y']],
-                                                                    [nodes[geo[3]]['X'],
-                                                                     nodes[geo[3]]['Y']],
-                                                                    [nodes[geo[2]]['X'],
-                                                                     nodes[geo[2]]['Y']])
-                                    #print 'arcgen',arcgen
-                                    if arcgen['Direction']>0:
-                                        drawing.add(dxf.arc(arcgen['Radius'],
-                                                           (arcgen['Center'][0],arcgen['Center'][1]),
-                                                            math.degrees(arcgen['P3Degree']),
-                                                            math.degrees(arcgen['P1Degree'])))
-                                    else:
-                                        drawing.add(dxf.arc(arcgen['Radius'],
-                                                           (arcgen['Center'][0],arcgen['Center'][1]),
-                                                            math.degrees(arcgen['P1Degree']),
-                                                            math.degrees(arcgen['P3Degree'])))
-                                    print 'direction',arcgen['Direction']
-
-
-
-    drawing.save_to_fileobj(output)
-    dxf_result=[output.getvalue()]
-    return dxf_result
 
 
 project.ValidateParameters = types.MethodType( ValidateParameters, project )
 project.Execute = types.MethodType( Execute, project )
-project.ExportDXF = types.MethodType( ExportDXF, project )
+#project.ExportDXF = types.MethodType( ExportDXF, project )
 makEasy.projectLibrary[project.Name]= project

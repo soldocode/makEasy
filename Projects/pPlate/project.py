@@ -48,7 +48,7 @@ def ValidateParameters(self,parameters):
 def Execute(self,parameters):
     self.ProjectExecuted=True
     ValidateParameters(self,parameters)
-    print json.dumps(parameters, sort_keys=False, indent=4)
+    #print json.dumps(parameters, sort_keys=False, indent=4)
 
 
     wsPlasma={}
@@ -144,7 +144,7 @@ def Execute(self,parameters):
               "Weight":1
              }
     
-    work_flow=[wsPlasma,wsDrill]
+    work_flow=[wsPlasma]
 
 
     item=makEasy.Item()
@@ -157,66 +157,8 @@ def Execute(self,parameters):
 
 
 
-def ExportDXF(self,data):
-    output = cStringIO.StringIO()
-    drawing = dxf.drawing('item.dxf')
-
-    centerx=0
-    centery=0
-    cutid=1
-    # disegna fori interni #
-    if 'holes' in data['data_form'].keys():
-        for holes in data['data_form']['holes']:
-            if holes['intfo']<>'':
-                modulo=holes['intfo']/2
-            else:
-                modulo=0
-            print 'modulo:',modulo
-
-            if holes['num']<>'':
-                numfori=int(holes['num'])
-            else:
-                numfori=1
-            print 'numfori:',numfori
-
-            if holes['par']<>'':
-                angpar=int(holes['par'])
-            else:
-                angpar=0
-            print 'angpar:',angpar
-            angpasso=360/numfori
-            for i in range(0,numfori):
-                cutid=cutid+1
-                cx=centerx+modulo*math.cos(math.radians(angpar+angpasso*i))
-                cy=centery+modulo*math.sin(math.radians(angpar+angpasso*i))
-                drawing.add(dxf.circle(float(holes['dia']/2), (cx,cy)))
-
-    # sagoma piastra #
-    if data['data_form']['shape']==1:
-        xstart=-(data['data_form']['misure2']/2)
-        ystart=-(data['data_form']['misure3']/2)
-
-
-        drawing.add(dxf.line((xstart, ystart),
-                             (xstart, data['data_form']['misure3']/2)))
-        drawing.add(dxf.line((xstart, data['data_form']['misure3']/2),
-                             (data['data_form']['misure2']/2, data['data_form']['misure3']/2)))
-        drawing.add(dxf.line((data['data_form']['misure2']/2, data['data_form']['misure3']/2),
-                             (data['data_form']['misure2']/2, ystart)))
-        drawing.add(dxf.line((data['data_form']['misure2']/2, ystart),
-                             (xstart, ystart)))
-    elif data['data_form']['shape']==2:
-        drawing.add(dxf.circle(data['data_form']['misure4']/2, (centerx,centery)))
-
-
-
-
-    drawing.save_to_fileobj(output)
-    dxf_result=[output.getvalue()]
-    return dxf_result
-
 
 project.ValidateParameters = types.MethodType( ValidateParameters, project )
 project.Execute = types.MethodType( Execute, project )
-project.ExportDXF = types.MethodType( ExportDXF, project )
+#project.ExportDXF = types.MethodType( ExportDXF, project )
 makEasy.projectLibrary[project.Name]= project
