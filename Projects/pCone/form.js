@@ -1,7 +1,4 @@
 
-$(".value").on("change",update_shape);
-
-
 
 function makeObject()
     {
@@ -206,3 +203,6 @@ function update_shape()
      scene.add(extshape);
 
     }
+
+$(".value").on("change",update_shape);
+
