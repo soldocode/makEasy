@@ -1,7 +1,12 @@
 
+    ITEMS3D['pPlate']=makePlate;
     $(".value").on("change",update_shape);
 
-
+    
+    function makePlate(p)
+    {
+        alert('olà Plate');
+    }
 
     function makeObject()
     {
