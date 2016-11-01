@@ -1,5 +1,5 @@
 
-    ITEMS3D['pPlate']=makePlate;
+  
     $(".value").on("change",update_shape);
 
     
@@ -105,3 +105,5 @@
      scene.add(extshape);
 
     }
+
+ITEMS3D['pPlate']=makePlate;
