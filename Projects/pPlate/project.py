@@ -95,14 +95,14 @@ def Execute(self,parameters):
                    "Ymax":radius}
 
     # holes #
-    centerx=0
-    centery=0
+    centerx=0.0
+    centery=0.0
     cutid=1
     if 'holes' in parameters.keys():
         for holes in parameters['holes']:
             if holes['work']==1:#taglio plasma
                 if holes['intfo']<>'':
-                    modulo=holes['intfo']/2
+                    modulo=float(holes['intfo'])/2
                 else:
                     modulo=0
 
@@ -112,11 +112,11 @@ def Execute(self,parameters):
                     numfori=1
 
                 if holes['par']<>'':
-                    angpar=int(holes['par'])
+                    angpar=float(holes['par'])
                 else:
-                    angpar=0
+                    angpar=0.0
 
-                angpasso=360/numfori
+                angpasso=360.0/numfori
                 for i in range(0,numfori):
                     cutid=cutid+1
                     cx=centerx+modulo*math.cos(math.radians(angpar+angpasso*i))
@@ -143,7 +143,7 @@ def Execute(self,parameters):
               "Time":1,
               "Weight":1
              }
-    
+
     work_flow=[wsPlasma]
 
 
@@ -154,6 +154,8 @@ def Execute(self,parameters):
     item.ProjectParameters=parameters
     item.WorkFlow=work_flow
     return item
+
+
 
 
 
