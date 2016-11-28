@@ -1,6 +1,6 @@
 {
   "P": {
-    "name": "Piatto"
+	"name": "Piatto"
   },
   "A": {
     "name": "Angolare"
@@ -19,5 +19,23 @@
   },
   "U": {
     "name": "UNP"
-  }
+  },
+  "T": {
+    "name": "Ferro a T"
+  },
+  "TO": {
+    "name": "Tondo"
+  },
+  "Q": {
+    "name": "Quadro"
+  },
+  "I": {
+    "name": "IPE"
+  },
+  "HA": {
+    "name": "HEA"
+  },
+  "HB": {
+    "name": "HEB"
+  }  
 }
