@@ -18,5 +18,9 @@
   "AISI316": {
     "name": "AISI316",
     "weight": 7.9
+  },
+  "HB400": {
+    "name": "HARDOX 400",
+    "weight": 7.9
   }
 }
