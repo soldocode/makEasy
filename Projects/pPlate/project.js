@@ -79,6 +79,7 @@
                       };
 
         plate.add(new THREE.Mesh( new THREE.ExtrudeGeometry(pShape, options),material));
+        plate.castShadow = plate.receiveShadow = true;
 
        return plate
     }
@@ -111,32 +112,25 @@
 
 
 
-    function makeObject()
+    function makeObject(id)
     {
-        return meProject.makePlate(getParameters());
+        objects[id]={"element":meProject.makePlate(getParameters())}
+        return objects[id].element
+
     }
 
 
 
     function update_shape()
     {
-     wWidth = parseFloat($('#3Dscene').css("width"));
-     wHeight = parseFloat($('#3Dscene').css('height'));
-     aspectRatio=wWidth/wHeight;
-     viewSize=$("input[name='misure2:number']").val();
-     camera.left = -aspectRatio*viewSize/1.5 ;
-     camera.right = aspectRatio* viewSize /1.5;
-     camera.top = viewSize /1.5;
-     camera.bottom = - viewSize/1.5 ;
-     camera.updateProjectionMatrix();
 
-     scene.remove(extshape);
-     extshape=makeObject();
+     if (objects.project)
+     {
+         scene.remove(objects.project.element);
+     }
 
-
-     // add it to the scene.
-     extshape.castShadow = extshape.receiveShadow = true;
-     scene.add(extshape);
+     makeObject('project');
+     scene.add(objects.project.element);
 
     }
 
