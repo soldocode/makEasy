@@ -15,21 +15,21 @@ def WorkOut(args):
     nodes=args['nodes']
     paths=args['paths']
     speed=args['speed']
-     
+
     tLoad=5
     tTool=5
     tWork=1
     tMove=1
     tLook=2
-        
+
     for i in paths:
       tWork+=0.5
-    
-    
+
+
     res={"time":tLoad+tTool+tWork+tMove+tLook}
     return res
 
-    
+
 def Run (args):
     block={"WorkClass":"PlasmaCut",
            "Id":'',
@@ -46,11 +46,10 @@ def Run (args):
 
 
 
-work=makEasy.Work()
+work=makEasy.Work('PlasmaCut','Taglio Plasma')
 work.Type='taglio_plasma'
-work.Class='PlasmaCut'
-work.Title='Taglio Plasma'
-work.Path='wPlasmaCut'
+#work.Path='wPlasmaCut'
+work.Folder='wPlasmaCut'
 work.Execute=Execute
 work.Run=Run
 

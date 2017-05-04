@@ -52,7 +52,7 @@ def Execute(self,parameters):
 
 
     wsPlasma={}
-    wsDrill={}
+    ws=makEasy.WORKSET['taglio_plasma']
 
     #### calcola la sequenza di lavorazione Plasma###
     ##workClass='Taglio Plasma'
@@ -135,16 +135,14 @@ def Execute(self,parameters):
                          "Weight":1}
 
 
-    wsPlasma={"WorkClass":"Taglio Plasma",
-              "Id":'',
-              "Nodes":wNodes,
-              "Chain":chain_list,
-              "BoundBox":bound_box,
-              "Time":1,
-              "Weight":1
-             }
+    Data={
+             "Nodes":wNodes,
+             "Chain":chain_list,
+             "BoundBox":bound_box
+            }
 
-    work_flow=[wsPlasma]
+
+    work_flow=[[ws,Data]]
 
 
     item=makEasy.Item()

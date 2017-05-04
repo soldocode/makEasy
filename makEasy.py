@@ -11,7 +11,7 @@ from dxfwrite import DXFEngine as dxf
 import geoFun, math
 import cStringIO
 
-jsonpickle.set_encoder_options('simplejson', indent=4) 
+jsonpickle.set_encoder_options('simplejson', indent=4)
 
 
 class Project(object):
@@ -63,7 +63,7 @@ class Item(object):
         self.ClassProperty=None
         self.Title = Title
         self.Project = Project
-        self.ProjectParameters = {} 
+        self.ProjectParameters = {}
         self.Prices = None
         self.Weight = 0
         self.Position = Position()
@@ -79,20 +79,20 @@ class Item(object):
     def toJson(self):
         jsonItem=jsonpickle.encode(self)
         return jsonItem
- 
-        
+
+
     def addWork(self,wClass):
         self.WorkFlow.append({"WorkClass":wClass,
                               "Time":0})
         return len(self.WorkFlow)
-    
+
 
     def SaveAs(filePath):
         jp=jsonpickle.encode(self)
         print jp
         return
-        
-    
+
+
 
     def ExportDXF (self):
         output = cStringIO.StringIO()
@@ -100,15 +100,15 @@ class Item(object):
         if len(self.WorkFlow)>0:
             works=self.WorkFlow
             for work in works:
-                
+
                 if work['WorkClass']=='Taglio Plasma':
                     nodes=work['Nodes']
-                    
+
                     chains=work['Chain']
                     if len(chains)>0:
                         for chain in chains:
                             for geo in chain:
-                                
+
                                 if geo[0]=='Line':
                                     drawing.add(dxf.line((nodes[geo[1]]['X'],
                                                           nodes[geo[1]]['Y']),
@@ -140,10 +140,10 @@ class Item(object):
                                     radius=nodes[geo[2]]['X']-nodes[geo[1]]['X']
                                     drawing.add(dxf.circle(radius,(nodes[geo[1]]['X'], nodes[geo[1]]['Y'])))
 
-        
+
         drawing.save_to_fileobj(output)
         dxf_result=[output.getvalue()]
-        
+
         return dxf_result
 
 
@@ -160,9 +160,12 @@ class Job(object):
 
 
 class Work(object):
-    def __init__(self):
+    def __init__(self,
+                 wclass=None,
+                 wtitle=None):
         self.ID = None
-        self.Title = None
+        self.Title = wtitle
+        self.Class = wclass
 
 
 class WorkPlan(object):
@@ -178,11 +181,11 @@ class WorkPlan(object):
         self.Positions = {}
         self.JobSequence = {}
         self.Times={}
-        
+
    # def addItem(self,Item=None):
    #     self.add=1
 
-        
+
    # def removeItem(self,IdItem=None):
    #     self.remove=1
         # cercare nell'elenco l'item passato ed eliminare

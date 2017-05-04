@@ -91,15 +91,19 @@ def Execute(self,parameters):
     print 'dev_degree',dev_degree
 
     dev_degree=dev_degree/parameters['parts']
-    
+
 
     #### calcola il peso ####
     area=(math.pow(greater_radius_dev,2)-math.pow(smaller_radius_dev,2))*math.pi
     w=((area/1000000)*7.9*t)/360*dev_degree
-    
+
 
     #### calcola la sequenza di lavorazione ###
+    work_flow=[]
+
+    ## Taglio Plasma ##
     workClass='Taglio Plasma'
+    work=makEasy.WORKSET['taglio_plasma']
     wNodes=[{'X':0,'Y':0}]
     sin_alfa=math.sin(math.radians(90-dev_degree/2))
     cos_alfa=math.cos(math.radians(90-dev_degree/2))
@@ -135,19 +139,23 @@ def Execute(self,parameters):
     bound_box['Ymin']=bound_box['Ymin']-shift_y
     bound_box['Ymax']=bound_box['Ymax']-shift_y
 
-    print 'bound_box:'
-    print ' Xmin:',bound_box['Xmin']
-    print ' Ymin:',bound_box['Ymin']
-    print ' Xmax:',bound_box['Xmax']
-    print ' Ymax:',bound_box['Ymax']
 
-    work_flow=[{"WorkClass":workClass,
-                "Id":'',
-                "Nodes":wNodes,
-                "Chain":chain_list,
-                "BoundBox":bound_box
-               }
-              ]
+    Data={  "Nodes":wNodes,
+             "Chain":chain_list,
+             "BoundBox":bound_box
+            }
+
+    work_flow.append([work,Data])
+
+
+    ## calandratura/piegatura ##
+    if diam_min<500: #questo valore va sostituito con il d minimo della calandra
+        work=makEasy.WORKSET['piegatura']
+    else:
+        work=makEasy.WORKSET['calandratura']
+
+    work_flow.append(work)
+
 
     item=makEasy.Item()
     item.Class="sheet"
