@@ -40,10 +40,7 @@ class Position(object):
     def __init__(self,
                  x=0, y=0, z=0,
                  xrot=0, yrot=0, zrot=0):
-        """
 
-        :type yrot: object
-        """
         self.X = x
         self.Y = y
         self.Z = z
@@ -82,7 +79,7 @@ class Item(object):
 
 
     def addWork(self,wClass):
-        self.WorkFlow.append({"WorkClass":wClass,
+        self.WorkFlow.append({"Class":wClass,
                               "Time":0})
         return len(self.WorkFlow)
 
@@ -100,29 +97,28 @@ class Item(object):
         if len(self.WorkFlow)>0:
             works=self.WorkFlow
             for work in works:
-
-                if work['WorkClass']=='Taglio Plasma':
-                    nodes=work['Nodes']
-
-                    chains=work['Chain']
+                if work[0].Class=='PlasmaCut':
+                    nodes=work[1]['Nodes']
+                    chains=work[1]['Chain']
                     if len(chains)>0:
                         for chain in chains:
                             for geo in chain:
 
                                 if geo[0]=='Line':
+                                    print ('Line')
                                     drawing.add(dxf.line((nodes[geo[1]]['X'],
                                                           nodes[geo[1]]['Y']),
                                                          (nodes[geo[2]]['X'],
                                                           nodes[geo[2]]['Y'])))
-                                    print drawing
                                 elif geo[0]=='Arc':
+                                    print('arc')
                                     arcgen=geoFun.CircleFrom3Points([nodes[geo[1]]['X'],
                                                                      nodes[geo[1]]['Y']],
                                                                     [nodes[geo[3]]['X'],
                                                                      nodes[geo[3]]['Y']],
                                                                     [nodes[geo[2]]['X'],
                                                                      nodes[geo[2]]['Y']])
-                                    #print 'arcgen',arcgen
+
                                     if arcgen['Direction']>0:
                                         drawing.add(dxf.arc(arcgen['Radius'],
                                                            (arcgen['Center'][0],arcgen['Center'][1]),
@@ -133,13 +129,13 @@ class Item(object):
                                                            (arcgen['Center'][0],arcgen['Center'][1]),
                                                             math.degrees(arcgen['P1Degree']),
                                                             math.degrees(arcgen['P3Degree'])))
-                                    #print 'direction',arcgen['Direction']
+
 
 
                                 elif geo[0]=='Circle':
+                                    print('circle')
                                     radius=nodes[geo[2]]['X']-nodes[geo[1]]['X']
                                     drawing.add(dxf.circle(radius,(nodes[geo[1]]['X'], nodes[geo[1]]['Y'])))
-
 
         drawing.save_to_fileobj(output)
         dxf_result=[output.getvalue()]
@@ -150,7 +146,7 @@ class Item(object):
     def WorkFlowTree(self):
         print 'WorkFlow:'
         for w in self.WorkFlow:
-            print '- ',w['WorkClass']
+            print '- ',w['Class']
 
 
 class Job(object):

@@ -18,8 +18,6 @@ __author__ = 'Riccardo'
 import makEasy
 import types
 import math
-from dxfwrite import DXFEngine as dxf
-import cStringIO
 import json
 
 
@@ -39,7 +37,6 @@ def ValidateParameters(self,parameters):
 def Execute(self,parameters):
     self.ProjectExecuted=True
     ValidateParameters(self,parameters)
-    #print parameters
 
     ### calcola la sezione di sviluppo ###
     d=float((parameters['dia_max']-parameters['dia_min']))/2
@@ -47,13 +44,13 @@ def Execute(self,parameters):
     t=float(parameters['thickness'])
 
     alfa=math.atan(d/h)
-    print 'alfa:',math.degrees(alfa)
+    #print 'alfa:',math.degrees(alfa)
 
     h2=t*math.sin(alfa)
-    print 'h2:',h2
+    #print 'h2:',h2
     h1=h-h2
     beta=math.atan(d/h1)
-    print beta
+    #print beta
     h2=t*math.sin(beta)
     delta=h1+h2-h
 
@@ -62,22 +59,22 @@ def Execute(self,parameters):
         beta=math.atan(d/h1)
         h2=t*math.sin(beta)
         delta=h1+h2-h
-        print delta
+        #print delta
 
-    print 'h2:',h2
-    print 'h1:',h1
-    print 'h1+h2:',h1+h2
-    print 'beta:',math.degrees(beta)
-    print 'delta:',delta
+    #print 'h2:',h2
+    #print 'h1:',h1
+    #print 'h1+h2:',h1+h2
+    #print 'beta:',math.degrees(beta)
+    #print 'delta:',delta
 
     tdiff=math.sqrt(math.pow(t,2)-math.pow(h2,2))
-    print 'tdiff:',tdiff
+    #print 'tdiff:',tdiff
 
 
 
     ### calcola lo sviluppo del cono ###
     diam_max=float(parameters['dia_max']-tdiff)
-    print diam_max
+    #print diam_max
     diam_min=float(parameters['dia_min']-tdiff)
     oblique_side=math.sqrt(math.pow(d,2)+math.pow(h1,2))
     greater_circ=diam_max*math.pi
@@ -86,9 +83,9 @@ def Execute(self,parameters):
     greater_circ_dev=greater_radius_dev*2*math.pi
     dev_degree=360/greater_circ_dev*greater_circ
 
-    print 'grater_radius_dev:',greater_radius_dev
-    print 'smaller_radius_dev',smaller_radius_dev
-    print 'dev_degree',dev_degree
+    #print 'grater_radius_dev:',greater_radius_dev
+    #print 'smaller_radius_dev',smaller_radius_dev
+    #print 'dev_degree',dev_degree
 
     dev_degree=dev_degree/parameters['parts']
 
@@ -102,7 +99,6 @@ def Execute(self,parameters):
     work_flow=[]
 
     ## Taglio Plasma ##
-    workClass='Taglio Plasma'
     work=makEasy.WORKSET['taglio_plasma']
     wNodes=[{'X':0,'Y':0}]
     sin_alfa=math.sin(math.radians(90-dev_degree/2))
@@ -145,6 +141,7 @@ def Execute(self,parameters):
              "BoundBox":bound_box
             }
 
+
     work_flow.append([work,Data])
 
 
@@ -154,7 +151,7 @@ def Execute(self,parameters):
     else:
         work=makEasy.WORKSET['calandratura']
 
-    work_flow.append(work)
+    work_flow.append([work,{}])
 
 
     item=makEasy.Item()
