@@ -86,7 +86,7 @@ class Item(object):
 
     def SaveAs(filePath):
         jp=jsonpickle.encode(self)
-        print jp
+#        print jp
         return
 
 
@@ -143,10 +143,12 @@ class Item(object):
         return dxf_result
 
 
-    def WorkFlowTree(self):
-        print 'WorkFlow:'
+#    def WorkFlowTree(self):
+        #print 'WorkFlow:'
+        result=''
         for w in self.WorkFlow:
-            print '- ',w['Class']
+            result+='- ',w['Class']
+        return result
 
 
 class Job(object):
