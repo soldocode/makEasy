@@ -1,15 +1,28 @@
 
-var material_handler=new THREE.MeshLambertMaterial({color: 0x666666, transparent: true, opacity:0.2});
+var material_handler=new THREE.MeshLambertMaterial({color: 0x666666, transparent: true, opacity:0.1});
+
+function radians(degree)
+    {
+        return degree * Math.PI / 180
+    }
 
 function makeObject(id)
     {
-     var thk=15
+
+     // get parameters
+     var thk=parseFloat($("input[name='thickness:number']").val());
+     var sLen=parseFloat($("input[name='lenght:number']").val());
+
+
+     //var thk=15
      var group = new THREE.Object3D();
-     group.add(makeSegment(150,thk,0,0,0))
+     group.add(makeSegment(150,thk,0,0,0,sLen))
      //group.add(makeSegment(100,thk,150,0,0.7))
 
      group.add(makeHandler(thk,150,7.5))
      group.add(makeHandler(thk,0,7.5))
+     group.add(makeBend(thk,270,0,10,150,0,sLen))
+     group.add(makeBend(thk,90,180,4,0,thk,sLen))
 
      objects[id]={"element":group}
      return group;
@@ -22,7 +35,7 @@ function makeHandler(thk,x,y)
         return result
     }
 
-function makeSegment(length,thk,x,y,angle)
+function makeSegment(length,thk,x,y,angle,sLen)
     {
         var result=new THREE.Object3D();
         var shape = new THREE.Shape();
@@ -32,11 +45,9 @@ function makeSegment(length,thk,x,y,angle)
         shape.lineTo( 0,thk  );
         shape.lineTo( 0,0 );
 
-        //pShape=make_rect(lenght,50);
-        //sPath=make_rect_path(lenght,10);
         result.add(new THREE.Line(shape.createPointsGeometry(),lineMaterial));
         var options = {
-                        amount: -1,
+                        amount: sLen,
                         steps: 1,
                         bevelSegments: 0,
                         bevelSize: 0,
@@ -48,25 +59,32 @@ function makeSegment(length,thk,x,y,angle)
         return result
     }
 
-function makeBend(thk,angleStart,angleEnd,radius,x,y)
+
+function makeBend(thk,angleStart,angleEnd,radius,x,y,sLen)
     {
         var result=new THREE.Object3D();
         var path=new THREE.Path();
-        //path.moveTo(0,0);
-        path.arc ( 0, 0, radius, angleStart, angleEnd, false );
-        path.arc ( 0, 0, radius+thk, angleStart, angleEnd, true );
-        //path.lineTo(0,0);
-        var geometry = path.makeGeometry();
-        var shape=path.toShapes();
+        path.moveTo(0,0);
+        path.absarc (0,0, radius, radians(angleStart), radians(angleEnd) , false );
+        path.absarc (0,0, radius+thk, radians(angleEnd), radians(angleStart), true );
+        path.closePath();
+
+        var geometry = path.createPointsGeometry();
         result.add(new THREE.Line(geometry,lineMaterial));
+
+        var shape = new THREE.Shape(geometry.vertices);
         var options = {
-                        amount: -1,
+                        amount: sLen,
                         steps: 1,
                         bevelSegments: 0,
                         bevelSize: 0,
                         bevelThickness: 0
                       };
-        result.add(new THREE.Mesh(new THREE.ExtrudeGeometry(shape, options),material));
+        result.add(new THREE.Mesh(new THREE.ExtrudeGeometry(shape, options),material_handler));
+        oX=(radius+thk)*Math.cos(radians(angleStart))
+        oY=(radius+thk)*Math.sin(radians(angleStart))
+        console.log(oX,oY);
+        result.position.set(x-oX,y-oY,0);
         return result
     }
 
@@ -83,6 +101,6 @@ $(".value").on("change",update_shape);
 camera.position.set(0,0,8000);
 camera.up.set(0,1,0);
 camera.updateProjectionMatrix ();
-cameraControls.noRotate=true;
+//cameraControls.noRotate=true;
 cameraControls.update();
 
