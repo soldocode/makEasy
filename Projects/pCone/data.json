@@ -1,3 +1,7 @@
 {
-
+ "thickness": 5,
+ "dia_max": 500,
+ "dia_min": 200,
+ "height": 300,
+ "parts": 1
 }
