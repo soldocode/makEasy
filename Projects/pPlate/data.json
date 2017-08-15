@@ -1,17 +1,9 @@
 {
   "shape": 1,
   "misure1": 10,
-  "misure2": 533,
+  "misure2": 500,
   "misure3": 500,
   "misure4": 500,
-  "holes": [
-    {
-      "work": 1,
-      "dia": 17,
-      "intfo": 39,
-      "num": 1,
-      "par": 0
-    }
-  ],
-  "id_holes": 0
+  "holes": [],
+  "id_holes": -1
 }
