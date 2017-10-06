@@ -87,26 +87,28 @@
 
     function getParameters()
     {
-        var p={}
-        p.shape=$("select[name='shape:number']").val();
-        p.misure1=$("input[name='misure1:number']").val();
-        p.misure2=$("input[name='misure2:number']").val();
-        p.misure3=$("input[name='misure3:number']").val();
-        p.misure4=$("input[name='misure4:number']").val();
-        p.id_holes=$("input[name='id_holes']").val();
-        p.holes=[];
-        if (p.id_holes >-1)
-        {
-         for (var i = 0; i <= p.id_holes; i++)
-           {
-             var h={}
-             h.num=$("input[name='holes["+i+"][num]:number']").val();
-             h.par=$("input[name='holes["+i+"][par]:number']").val();
-             h.intfo=$("input[name='holes["+i+"][intfo]:number']").val();
-             h.dia=$("input[name='holes["+i+"][dia]:number']").val();
-             p.holes.push(h);
-           }
-        }
+        //var p={}
+        //p.shape=$("select[name='shape:number']").val();
+        //p.misure1=$("input[name='misure1:number']").val();
+        //p.misure1=parseFloat(JSON.parse(localStorage.prj_data).misure1);
+        //p.misure2=$("input[name='misure2:number']").val();
+        //p.misure3=$("input[name='misure3:number']").val();
+        //p.misure4=$("input[name='misure4:number']").val();
+        //p.id_holes=$("input[name='id_holes']").val();
+        //p.holes=[];
+        //if (p.id_holes >-1)
+        //{
+        // for (var i = 0; i <= p.id_holes; i++)
+        //   {
+        //     var h={}
+        //     h.num=$("input[name='holes["+i+"][num]:number']").val();
+        //     h.par=$("input[name='holes["+i+"][par]:number']").val();
+        //     h.intfo=$("input[name='holes["+i+"][intfo]:number']").val();
+        //     h.dia=$("input[name='holes["+i+"][dia]:number']").val();
+        //     p.holes.push(h);
+        //   }
+        //}
+        var p=JSON.parse(localStorage.prj_data)
         return p
     }
 

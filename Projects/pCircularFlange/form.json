@@ -1,51 +1,22 @@
 {
-  "name": "Piastra",
-  "title": "PIASTRE TAGLIATE A PLASMA",
-  "cod":"PSFO",
+  "name": "CircularFlange",
+  "title": "FLANGIA CIRCOLARE",
+  "cod":"CIFL01",
   "form_data": [
     {
-      "class": "switch-fields",
-      "label": "sagoma piastra",
-      "name": "shape",
-      "width": 20,
+      "class": "json-list",
+      "label": "materiale",
+      "name": "material",
+      "width": 50,
       "value": 1,
-      "values": [
-        {
-          "text": "Rettangolare",
-          "value": "1"
-        },
-        {
-          "text": "Circolare",
-          "value": "2"
-        }
-      ],
-      "switch": {
-        "1": {
-          "on": [
-            "misure2",
-            "misure3"
-          ],
-          "off": [
-            "misure4"
-          ]
-        },
-        "2": {
-          "on": [
-            "misure4"
-          ],
-          "off": [
-            "misure2",
-            "misure3"
-          ]
-        }
-      }
+      "json_source":"Materials/material_quality.json"
     },
     {
       "class": "list",
       "label": "spessore",
       "value": 5,
       "width": 40,
-      "name": "misure1",
+      "name": "thickness",
       "args": {},
       "values":[{"text":"1,5","value":1.5},
                 {"text":"2","value":2},
@@ -53,6 +24,8 @@
                 {"text":"3","value":3},
                 {"text":"4","value":4},
                 {"text":"5","value":5},
+                {"text":"6","value":6},
+                {"text":"8","value":8},
                 {"text":"10","value":10}]
     },
     {
