@@ -5,7 +5,7 @@ function makeObject(id)
      // get parameters
      var dia_max=parseFloat($("input[name='dia_max:number']").val());
      var dia_min=parseFloat($("input[name='dia_min:number']").val());
-     var thickness=parseFloat($("input[name='thickness:number']").val());
+     var thickness=parseFloat($("select[name='thickness:number']").val());
      var height=parseFloat($("input[name='height:number']").val());
      var parts=parseFloat($("input[name='parts:number']").val());
      var delta_radius=(dia_max-dia_min)/2;
@@ -185,19 +185,63 @@ function makeObject(id)
     };
 
 
-
-
 function update_shape()
+{
+    if (objects.project){scene.remove(objects.project.element)}
+    makeObject('project');
+    scene.add(objects.project.element);
+}
+
+
+function fill_materials_selector()
+{
+    $.ajax(
+        {
+           url: "/makeasy/item/getJson",
+           type: "POST",
+           data: {'jsonPath':"Materials/material_quality.json"},
+           dataType: "json",
+           success:function(result)
+                    {
+                        MATERIALS = JSON.parse(result.source)
+                        var htmlOptions=" ";
+                        for (var key in MATERIALS)
+                        {
+                            htmlOptions+="<OPTION value='"+key+"'>"+MATERIALS[key].name+"</OPTION>";
+                        }
+                        var replace="<SELECT name='material:number'>"
+                        replace +=htmlOptions
+                        replace +="</SELECT>"
+                        $("select[name='material:number']").replaceWith(replace);
+                        fill_thickness_selector($("select[name='material:number']").val());
+                    }
+
+        })
+}
+
+
+function fill_thickness_selector(quality)
+{
+    var list=MATERIALS[quality].thickness
+    var htmlOptions=" ";
+    for (var key in list)
     {
-
-
-     if (objects.project){scene.remove(objects.project.element)}
-
-     makeObject('project');
-     scene.add(objects.project.element);
-
+        htmlOptions+="<OPTION value='"+key+"'>"+list[key].name+"</OPTION>";
     }
+    var replace="<SELECT name='thickness:number'>"
+    replace +=htmlOptions
+    replace +="</SELECT>"
+    $("select[name='thickness:number']").replaceWith(replace);
+}
 
 
+function after_deploy()
+{
+    fill_materials_selector();
+}
+
+
+var MATERIALS={};
 $(".value").on("change",update_shape);
+meForm.afterDeployForm=after_deploy
 

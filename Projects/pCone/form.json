@@ -4,23 +4,20 @@
   "cod":"TRCO",
   "form_data":[
   {
-      "class": "json-list",
+      "class": "list",
       "label": "materiale",
       "name": "material",
       "width": 50,
       "value": 1,
-      "json":
-      {
-          "server":"Materials/material_quality.json",
-          "local":""
-      },
-      "on_change_call":"updateThk"
+      "values":[],
+      "args":{}
   },
   {
-    "class": "number",
+    "class": "list",
     "label": "spessore",
     "value": 5,
     "width": 30,
+    "values":[{"text":"5,0","value":5.0}],
     "name": "thickness",
     "args": {}
   },

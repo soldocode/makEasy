@@ -4,12 +4,13 @@
   "cod":"CIFL01",
   "form_data": [
     {
-      "class": "json-list",
+      "class": "list",
       "label": "materiale",
       "name": "material",
       "width": 50,
-      "value": 1,
-      "json_source":"Materials/material_quality.json"
+      "value": -1,
+      "args":{},
+      "values":[]
     },
     {
       "class": "list",
