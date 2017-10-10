@@ -19,6 +19,7 @@ import makEasy
 projectName='Lamiera Piegata'
 projectPath='pBendSheet'
 project=makEasy.Project(name=projectName,path=projectPath)
+project.Title="Lamiera Piegata"
 
 
 makEasy.projectLibrary[project.Name]= project

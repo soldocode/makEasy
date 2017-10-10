@@ -8,52 +8,34 @@
       "label": "materiale",
       "name": "material",
       "width": 50,
-      "value": -1,
-      "args":{},
-      "values":[]
-    },
-    {
-      "class": "list",
-      "label": "spessore",
-      "value": 5,
-      "width": 40,
-      "name": "thickness",
-      "args": {},
-      "values":[{"text":"1,5","value":1.5},
-                {"text":"2","value":2},
-                {"text":"2,5","value":2.5},
-                {"text":"3","value":3},
-                {"text":"4","value":4},
-                {"text":"5","value":5},
-                {"text":"6","value":6},
-                {"text":"8","value":8},
-                {"text":"10","value":10}]
+      "value": 1,
+      "values":[],
+      "args":{}
+     },
+     {
+    "class": "list",
+    "label": "spessore",
+    "value": 5,
+    "width": 30,
+    "values":[{"text":"5,0","value":5.0}],
+    "name": "thickness",
+    "args": {}
     },
     {
       "class": "number",
-      "label": "larghezza",
+      "label": "diametro esterno",
       "value": 500,
       "width": 40,
-      "name": "misure2",
+      "name": "dia_est",
       "args": {}
     },
     {
       "class": "number",
-      "label": "altezza",
+      "label": "diametro interno",
       "value": 500,
       "width": 40,
-      "name": "misure3",
+      "name": "dia_int",
       "args": {}
-    },
-    {
-      "class": "number",
-      "label": "diametro",
-      "value": 500,
-      "width": 40,
-      "name": "misure4",
-      "args": {
-        "style": "display: none;"
-      }
     },
     {
       "class": "multiple-subform",
@@ -63,18 +45,28 @@
       "form": [
         {
           "class": "list",
-          "label": "lavorazione",
-          "name": "work",
+          "label": "tipo",
+          "name": "type",
           "value":"1",
           "width": 50,
           "args": {},
           "values": [
             {
-              "text": "Taglio Plasma",
+              "text": "Grezzo a Plasma",
               "value": "1"
             },
             {
-              "text": "Foratura",
+              "text": "Ricavato a Trapano",
+              "value": "2",
+              "": ""
+            },
+             {
+              "text": "Filettato",
+              "value": "2",
+              "": ""
+            },
+             {
+              "text": "Svasato",
               "value": "2",
               "": ""
             }
@@ -117,7 +109,7 @@
                       "label": "Aggiungi Foratura",
                       "args": {}
                     },
-      "after_deletion_callback":"updateAll"
+      "after_deletion_callback":"refresh_form"
     }
   ]
 }

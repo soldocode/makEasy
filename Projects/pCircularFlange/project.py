@@ -36,6 +36,7 @@ import json
 projectName='CircularFlange'
 projectPath='pCircularFlange'
 project=makEasy.Project(name=projectName,path=projectPath)
+project.Title='Flangia Circolare'
 
 
 def ValidateParameters(self,parameters):

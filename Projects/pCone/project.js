@@ -193,55 +193,12 @@ function update_shape()
 }
 
 
-function fill_materials_selector()
-{
-    $.ajax(
-        {
-           url: "/makeasy/item/getJson",
-           type: "POST",
-           data: {'jsonPath':"Materials/material_quality.json"},
-           dataType: "json",
-           success:function(result)
-                    {
-                        MATERIALS = JSON.parse(result.source)
-                        var htmlOptions=" ";
-                        for (var key in MATERIALS)
-                        {
-                            htmlOptions+="<OPTION value='"+key+"'>"+MATERIALS[key].name+"</OPTION>";
-                        }
-                        var replace="<SELECT name='material:number'>"
-                        replace +=htmlOptions
-                        replace +="</SELECT>"
-                        $("select[name='material:number']").replaceWith(replace);
-                        fill_thickness_selector($("select[name='material:number']").val());
-                    }
-
-        })
-}
-
-
-function fill_thickness_selector(quality)
-{
-    var list=MATERIALS[quality].thickness
-    var htmlOptions=" ";
-    for (var key in list)
-    {
-        htmlOptions+="<OPTION value='"+key+"'>"+list[key].name+"</OPTION>";
-    }
-    var replace="<SELECT name='thickness:number'>"
-    replace +=htmlOptions
-    replace +="</SELECT>"
-    $("select[name='thickness:number']").replaceWith(replace);
-}
-
-
 function after_deploy()
 {
     fill_materials_selector();
 }
 
 
-var MATERIALS={};
 $(".value").on("change",update_shape);
 meForm.afterDeployForm=after_deploy
 

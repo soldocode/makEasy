@@ -24,6 +24,7 @@ import json
 projectName='Tronco di Cono'
 projectPath='pCone'
 project=makEasy.Project(name=projectName,path=projectPath)
+project.Title="Tronco di Cono"
 
 
 def ValidateParameters(self,parameters):

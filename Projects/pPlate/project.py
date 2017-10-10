@@ -38,6 +38,7 @@ import json
 projectName='Piastra'
 projectPath='pPlate'
 project=makEasy.Project(name=projectName,path=projectPath)
+project.Title="Piastra"
 
 
 def ValidateParameters(self,parameters):
