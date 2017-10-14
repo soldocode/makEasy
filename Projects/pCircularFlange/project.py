@@ -8,15 +8,15 @@
 #* PARAMETERS:                                                             *
 #*                                                                         *
 #*  - material  -> materiale                                               *
-#*  - width     -> larghezza                                               *
-#*  - height    -> altezza                                                 *
 #*  - thickness -> spessore                                                *
+#*  - dia_est   -> diametro esterno                                        *
+#*  - dia_int   -> diametro interno                                        *
 #*  - holes     -> foratura                                                *
-#*    - holes_work  -> lavorazione                                         *
-#*    - holes_dia   -> diametro                                            *
-#*    - holes_num   -> numero fori                                         *
-#*    - holes_dist  -> interasse foratura                                  *
-#*    - holes_start -> angolo primo foro                                   *
+#*      - type    -> lavorazione                                           *
+#*      - dia     -> diametro                                              *
+#*      - num     -> numero fori                                           *
+#*      - intfo   -> interasse foratura                                    *
+#*      - par     -> angolo primo foro                                     *
 #*                                                                         *
 #*                                                                         *
 #***************************************************************************
@@ -32,7 +32,6 @@ import cStringIO
 import json
 
 
-
 projectName='CircularFlange'
 projectPath='pCircularFlange'
 project=makEasy.Project(name=projectName,path=projectPath)
@@ -45,10 +44,11 @@ def ValidateParameters(self,parameters):
 
 
 def Execute(self,parameters):
+
+
     self.ProjectExecuted=True
     ValidateParameters(self,parameters)
     #print json.dumps(parameters, sort_keys=False, indent=4)
-
 
     wsPlasma={}
     ws=makEasy.WORKSET['taglio_plasma']
@@ -60,38 +60,23 @@ def Execute(self,parameters):
 
 
     # sagoma piastra #
-    if parameters['shape']==1:
-        xcorn=float(parameters['misure2'])/2
-        ycorn=float(parameters['misure3'])/2
 
+    radius_est=float(parameters['dia_est'])/2
+    radius_int=float(parameters['dia_int'])/2
 
-        wNodes.append({'X':-xcorn,'Y':ycorn})
-        wNodes.append({'X':-xcorn,'Y':-ycorn})
-        wNodes.append({'X':xcorn,'Y':-ycorn})
-        wNodes.append({'X':xcorn,'Y':ycorn})
-        countNodes=4
+    area=math.pow(radius_est,2)*math.pi
+    area-=math.pow(radius_int,2)*math.pi
 
-        chain_list=[[["Line",1,2],["Line",2,3],["Line",3,4],["Line",4,1]]]
+    wNodes.append({'X':radius_est,'Y':0})
+    wNodes.append({'X':radius_int,'Y':0})
+    countNodes=2
 
-        bound_box={"Xmin":-xcorn,
-                   "Ymin":-ycorn,
-                   "Xmax":xcorn,
-                   "Ymax":ycorn}
+    chain_list=[[["Circle",0,1]],[["Circle",0,2]]]
 
-
-
-    if parameters['shape']==2:
-        radius=float(parameters['misure4'])/2
-
-        wNodes.append({'X':radius,'Y':0})
-        countNodes=1
-
-        chain_list=[[["Circle",0,1]]]
-
-        bound_box={"Xmin":-radius,
-                   "Ymin":-radius,
-                   "Xmax":radius,
-                   "Ymax":radius}
+    bound_box={"Xmin":-radius_est,
+               "Ymin":-radius_est,
+               "Xmax":radius_est,
+               "Ymax":radius_est}
 
     # holes #
     centerx=0.0
@@ -99,7 +84,12 @@ def Execute(self,parameters):
     cutid=1
     if 'holes' in parameters.keys():
         for holes in parameters['holes']:
-            if holes['work']==1:#taglio plasma
+
+            radius=float(holes['dia'])/2
+            hole_area=math.pow(radius,2)*math.pi
+
+            if holes['type']==1:#taglio plasma
+
                 if holes['intfo']<>'':
                     modulo=float(holes['intfo'])/2
                 else:
@@ -110,21 +100,23 @@ def Execute(self,parameters):
                 else:
                     numfori=1
 
+                angpasso=360.0/numfori
+
                 if holes['par']<>'':
                     angpar=float(holes['par'])
                 else:
                     angpar=0.0
 
-                angpasso=360.0/numfori
                 for i in range(0,numfori):
                     cutid=cutid+1
                     cx=centerx+modulo*math.cos(math.radians(angpar+angpasso*i))
                     cy=centery+modulo*math.sin(math.radians(angpar+angpasso*i))
+                    area-=hole_area
                     wNodes.append({'X':cx,'Y':cy})
-                    wNodes.append({'X':cx+float(holes['dia'])/2,'Y':cy})
+                    wNodes.append({'X':cx+radius,'Y':cy})
                     chain_list.append([["Circle",countNodes+1,countNodes+2]])
                     countNodes=countNodes+2
-            elif holes['work']==2:#foratura
+            elif holes['type']==2:#foratura
                 wsDrill={"WorkClass":"Foratura",
                          "Id":'',
                          "Nodes":wNodes,
@@ -132,6 +124,8 @@ def Execute(self,parameters):
                          "BoundBox":bound_box,
                          "Time":1,
                          "Weight":1}
+
+
 
 
     Data={
@@ -146,7 +140,8 @@ def Execute(self,parameters):
 
     item=makEasy.Item()
     item.Class="sheet"
-    item.ClassProperty={"Material":"Fe","Thickness":parameters['misure1']}
+    item.Weight=area*parameters['thickness']*7.9/1000000
+    item.ClassProperty={"Material":parameters['material'],"Thickness":parameters['thickness']}
     item.Project=makEasy.projectLibrary[projectName]
     item.ProjectParameters=parameters
     item.WorkFlow=work_flow

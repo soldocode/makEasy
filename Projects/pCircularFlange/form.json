@@ -9,6 +9,7 @@
       "name": "material",
       "width": 50,
       "value": 1,
+      "type":"string",
       "values":[],
       "args":{}
      },
@@ -17,7 +18,7 @@
     "label": "spessore",
     "value": 5,
     "width": 30,
-    "values":[{"text":"5,0","value":5.0}],
+    "values":[],
     "name": "thickness",
     "args": {}
     },
