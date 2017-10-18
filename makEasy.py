@@ -36,7 +36,7 @@ class Material(object):
         self.Thickness=Thickness
 
 
-class Position(object):
+class Position(object): ### forse non va bene qui
     def __init__(self,
                  x=0, y=0, z=0,
                  xrot=0, yrot=0, zrot=0):
@@ -143,27 +143,30 @@ class Item(object):
         return dxf_result
 
 
-#    def WorkFlowTree(self):
-        #print 'WorkFlow:'
-        result=''
-        for w in self.WorkFlow:
-            result+='- ',w['Class']
-        return result
 
-
-class Job(object):
-    def __init__(self):
-        self.ID = None
+class WorkStep(object):
+    def __init__(self,w,d={}):
+        self.Id = None
         self.Time = 0
+        self.Work = w
+        self.Data = d
+        self.Item = None
+        self.WorkPlan = None
+        
+    def __repr__(self):
+        return "Working of "+ repr(self.Work) + " on item "+ repr(self.Item)  
 
 
 class Work(object):
     def __init__(self,
                  wclass=None,
                  wtitle=None):
-        self.ID = None
+        self.Id = None
         self.Title = wtitle
         self.Class = wclass
+       
+    def __repr__(self):
+        return  self.Title     
 
 
 class WorkPlan(object):
@@ -189,7 +192,6 @@ class WorkPlan(object):
         # cercare nell'elenco l'item passato ed eliminare
 
 
-#workset = {} ELIMINARE???
 projectLibrary={}
 WORKSET = {}
 MATERIALS ={}
