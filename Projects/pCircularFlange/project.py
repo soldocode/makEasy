@@ -45,7 +45,6 @@ def ValidateParameters(self,parameters):
 
 def Execute(self,parameters):
 
-
     self.ProjectExecuted=True
     ValidateParameters(self,parameters)
     
@@ -60,7 +59,7 @@ def Execute(self,parameters):
     p_int=Path(nd_int,path)
     shape=Shape(p_ext,[p_int])
 
-    #### crea la sequenza di lavorazione ###
+    #### create working sequence ###
     ws_plasma=ME.WorkStep(ME.WORKSET['taglio_plasma'])
     ws_drill=ME.WorkStep(ME.WORKSET['drill'])
 
@@ -68,7 +67,6 @@ def Execute(self,parameters):
     # holes #
     centerx=0.0
     centery=0.0
-    #cutid=1
     
     if 'holes' in parameters.keys():
         for holes in parameters['holes']:
@@ -88,13 +86,13 @@ def Execute(self,parameters):
                 else:
                     angle_start=0.0
                 for i in range(0,nh):
-                    #cutid=cutid+1
                     cx=centerx+module*math.cos(math.radians(angle_start+angle_step*i))
                     cy=centery+module*math.sin(math.radians(angle_start+angle_step*i))
                     nodes=[Point(cx,cy),Point(cx+radius,cy)]
                     shape.internal.append(Path(nodes,path))
 
-                shape.update()        
+                shape.update() 
+                ws_plasma.Data={'shape':shape}       
                 
             elif holes['type']==2:#drill
                 ws_drill={"WorkClass":"Foratura",
