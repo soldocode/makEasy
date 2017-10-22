@@ -1,1 +1,1 @@
-import work
+from Works.wPlasmaCut import work

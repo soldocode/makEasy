@@ -2,14 +2,20 @@
 #*                                                                         *
 #*   makEasy - python module - 2015                                        *
 #*   Riccardo Soldini <riccardo.soldini@gmail.com>                         *
-#*   Last Update:23/06/16
+#*   Last Update:21/10/17
 #*                                                                         *
 #***************************************************************************
 
 import jsonpickle
 from dxfwrite import DXFEngine as dxf
 import geoFun, math
-import cStringIO
+import sys
+
+if sys.version_info[0]==3:
+    import io
+else:    
+    import cStringIO as io
+
 
 jsonpickle.set_encoder_options('simplejson', indent=4)
 
@@ -92,7 +98,7 @@ class Item(object):
 
 
     def ExportDXF (self):
-        output = cStringIO.StringIO()
+        output = io.StringIO()
         drawing = dxf.drawing('c:/item.dxf')
         if len(self.WorkFlow)>0:
             works=self.WorkFlow
@@ -182,22 +188,53 @@ class WorkPlan(object):
         self.Positions = {}
         self.JobSequence = {}
         self.Times={}
+        
+        
+    def getTimes(self):
+        blocks=[]
+        times={}
+        for i in self.Items:
+            for step in i.WorkFlow:
+               if self.Class==step.Work:
+                   blocks.append(step)
+        times=self.Class.Run(self.Machine,blocks)          
+        return times
 
-   # def addItem(self,Item=None):
-   #     self.add=1
 
 
-   # def removeItem(self,IdItem=None):
-   #     self.remove=1
-        # cercare nell'elenco l'item passato ed eliminare
+class Machines(object):
+    def __init__(self,Id=None,Name=""):
+        self.Id=Id
+        self.Name=Name
+        self.MacProperties={}
+        self.TimeParameters={}
+        
+    def getParameters(self,material):
+        return {}
 
 
 projectLibrary={}
 WORKSET = {}
 MATERIALS ={}
+MACHINES={}
+TTimes={"TCLoad",
+        "TPLoad",
+        "TCTool",
+        "TPTool",
+        "TCMove",
+        "TPMove",
+        "TCWork",
+        "TPWork",
+        "TCLook",
+        "TPLook",
+        "TCDwLd",
+        "TPDwLd"}
+
 
 from Works import *
 from Projects import *
+from Machines import *
+
 
 
 def newItemFromProject(projectName,parameters):

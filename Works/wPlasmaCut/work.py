@@ -30,11 +30,13 @@ def WorkOut(args):
     return res
 
 
-def Run (args):
-    block={"WorkClass":"PlasmaCut",
-           "Id":'',
-           "Nodes":args['nodes'],
-           "Chain":args['paths']}
+def Run (machine,blocks):
+    print (machine)
+    print (blocks[0].Work)
+    
+    for b in blocks:
+        print (b.Data)
+    times=0
     ### calcolo area ###
     ### calcolo bound box ###
     ### calcolo perimetro ###
@@ -42,7 +44,7 @@ def Run (args):
     ### calcolo peso ###
     ### calcolo tempo ###
 
-    return block
+    return times
 
 
 

@@ -28,9 +28,14 @@ import makEasy as ME
 import types
 import math
 from dxfwrite import DXFEngine as dxf
-import cStringIO
+import sys
 import json
 from g2 import *
+
+if sys.version_info[0]==3:
+    import io
+else:    
+    import cStringIO as io
 
 
 projectName='CircularFlange'
@@ -44,6 +49,10 @@ def ValidateParameters(self,parameters):
 
 
 def Execute(self,parameters):
+    
+    #mat_id=parameters['material']+'|'+str(parameters['thickness'])
+    
+    #var_plasma=ME.MACHINES['PLA01'].getParameters(mat_id)
 
     self.ProjectExecuted=True
     ValidateParameters(self,parameters)
@@ -72,16 +81,16 @@ def Execute(self,parameters):
         for holes in parameters['holes']:
             radius=float(holes['dia'])/2
             if holes['type']==1:#plasma cut
-                if holes['intfo']<>'':
+                if holes['intfo']!='':
                     module=float(holes['intfo'])/2
                 else:
                     module=0
-                if holes['num']<>'':
+                if holes['num']!='':
                     nh=int(holes['num'])
                 else:
                     nh=1
                 angle_step=360.0/nh
-                if holes['par']<>'':
+                if holes['par']!='':
                     angle_start=float(holes['par'])
                 else:
                     angle_start=0.0
@@ -103,6 +112,7 @@ def Execute(self,parameters):
                           "Time":1,
                           "Weight":1}
 
+    #### evaluate time production
     
 
     work_flow=[ws_plasma,ws_drill]

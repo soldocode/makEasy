@@ -1,1 +1,1 @@
-import work
+from Works.wBending import work
