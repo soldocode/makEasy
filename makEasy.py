@@ -33,7 +33,6 @@ class Project(object):
         self.Path =path
 
 
-
 class Material(object):
     def __init__(self,
                 Id=None,
@@ -42,17 +41,17 @@ class Material(object):
         self.Thickness=Thickness
 
 
-class Position(object): ### forse non va bene qui
-    def __init__(self,
-                 x=0, y=0, z=0,
-                 xrot=0, yrot=0, zrot=0):
+#class Position(object): ### forse non va bene qui
+#    def __init__(self,
+#                 x=0, y=0, z=0,
+#                 xrot=0, yrot=0, zrot=0):
 
-        self.X = x
-        self.Y = y
-        self.Z = z
-        self.XRot = xrot
-        self.YRot = yrot
-        self.ZRot = zrot
+#        self.X = x
+#        self.Y = y
+#        self.Z = z
+#        self.XRot = xrot
+#        self.YRot = yrot
+#        self.ZRot = zrot
 
 
 class Item(object):
@@ -64,12 +63,13 @@ class Item(object):
         self.Id = ID
         self.Class = Class  #'assembly','sheet','profile?','component'
         self.ClassProperty=None
+        self.ClassProperties={}
         self.Title = Title
         self.Project = Project
         self.ProjectParameters = {}
         self.Prices = None
         self.Weight = 0
-        self.Position = Position()
+        self.Position = None # forse non serve qui
         self.FreeCADObj = None
         self.WorkFlow = []
 
@@ -79,24 +79,24 @@ class Item(object):
         self.ProjectParametersValidated=True
         return True
 
+        
     def toJson(self):
         jsonItem=jsonpickle.encode(self)
         return jsonItem
 
-
+        
     def addWork(self,wClass):
         self.WorkFlow.append({"Class":wClass,
                               "Time":0})
         return len(self.WorkFlow)
 
-
+        
     def SaveAs(filePath):
         jp=jsonpickle.encode(self)
 #        print jp
         return
 
-
-
+        
     def ExportDXF (self):
         output = io.StringIO()
         drawing = dxf.drawing('c:/item.dxf')
@@ -149,7 +149,6 @@ class Item(object):
         return dxf_result
 
 
-
 class WorkStep(object):
     def __init__(self,w,d={}):
         self.Id = None
@@ -182,24 +181,23 @@ class WorkPlan(object):
                  Class=None):
         self.ID = ID
         self.Title = Title
-        self.Class = Class
+        self.ClassWork = Class
         self.Machine = None
+        self.MachineParameters ={}
         self.Items= []
-        self.Positions = {}
-        self.JobSequence = {}
+        self.Positions = [] #?????
+        self.JobSequence = []
         self.Times={}
-        
         
     def getTimes(self):
         blocks=[]
         times={}
         for i in self.Items:
             for step in i.WorkFlow:
-               if self.Class==step.Work:
+               if self.ClassWork==step.Work:
                    blocks.append(step)
-        times=self.Class.Run(self.Machine,blocks)          
+        times=self.ClassWork.getData(self.Machine,blocks,self.MachineParameters)          
         return times
-
 
 
 class Machines(object):
@@ -234,7 +232,7 @@ TTimes={"TCLoad",
 from Works import *
 from Projects import *
 from Machines import *
-
+import Materials
 
 
 def newItemFromProject(projectName,parameters):

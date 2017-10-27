@@ -1,7 +1,7 @@
 {
   "S235JR": {
     "name": "S235JR (FE360B)",
-    "weight": 7.9,
+    "weight": 0.0000079,
     "thickness": {
       "1.5": {
         "name": "1,5"
@@ -46,7 +46,7 @@
   },
   "S275JR": {
     "name": "S275JR (FE430B)",
-    "weight": 7.9,
+    "weight": 0.0000079,
     "thickness": {
       "3": {
         "name": "3,0"
@@ -82,7 +82,7 @@
   },
   "S355JR": {
     "name": "S355JR (FE510C)",
-    "weight": 7.9,
+    "weight": 0.0000079,
     "thickness": {
       "3": {
         "name": "3,0"
@@ -118,7 +118,7 @@
   },
   "AISI304": {
     "name": "AISI304",
-    "weight": 7.9,
+    "weight": 0.0000079,
     "thickness": {
       "2": {
         "name": "2,0"
@@ -154,7 +154,7 @@
   },
   "AISI316": {
     "name": "AISI316",
-    "weight": 7.9,
+    "weight": 0.0000079,
     "thickness": {
       "2": {
         "name": "2,0"
@@ -190,7 +190,7 @@
   },
   "HB400": {
     "name": "HARDOX 400",
-    "weight": 7.9,
+    "weight": 0.0000079,
     "thickness": {
       "6": {
         "name": "6,0"

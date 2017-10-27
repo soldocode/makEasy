@@ -5,30 +5,37 @@ mac=makEasy.Machines("PLA01","Plasma BBS")
 
 mac.MacProperties= {
     "XMax": 6000,
-    "YMax": 2500
+    "YMax": 2500,
+    "HPrices":{"Load":20.00,
+               "Tool":20.00,
+               "Move":5.00,
+               "Work":10.00,
+               "Look":5.00,
+               "DwLd":5.00}          
   }
 
+  
 mac.TimeParameters={
     "TCLoad": {
-      "DEFAULT": 5
+      "DEFAULT": {"Time": 3,"KW": 2}
     },
     "TPLoad": {
-      "DEFAULT": 10
+      "DEFAULT": {"Ln":1.6,"KW": 2}
     },
     "TCTool": {
-      "DEFAULT": 1
+      "DEFAULT": {"Time": 3,"KW": 2}
     },
     "TPTool": {
-      "DEFAULT": 10
+      "DEFAULT": {"Speed": 30,"KW": 2}
     },
     "TCMove": {
-      "DEFAULT": 1
+      "DEFAULT": {"Time": 0.1,"KW": 2}
     },
     "TPMove": {
-      "DEFAULT": 10
+      "DEFAULT": {"Speed": 30,"KW": 2}
     },
     "TCWork": {
-      "DEFAULT": 1
+      "DEFAULT": {"Time": 0.1,"KW": 2}
     },
     "TPWork": {
       "DEFAULT":   {"Speed": 2000,"KW": 40},
@@ -38,16 +45,16 @@ mac.TimeParameters={
       "S275JR|10": {"Speed": 2100,"KW": 31.50}
     },
     "TCLook": {
-      "DEFAULT": 2
+      "DEFAULT": {"Time": 30,"KW": 2}
     },
     "TPLook": {
-      "DEFAULT": 2
+      "DEFAULT": {"Speed": 30,"KW": 2}
     },
     "TCDwLd": {
-      "DEFAULT": 2
+      "DEFAULT": {"Time": 30,"KW": 2}
     },
     "TPDwLd": {
-      "DEFAULT": 2
+      "DEFAULT": {"Speed": 30,"KW": 2}
    }        
   }
 

@@ -121,7 +121,7 @@ def Execute(self,parameters):
     item=ME.Item()
     item.Class="sheet"
     item.Weight=shape.area['total']*parameters['thickness']*7.9/1000000
-    item.ClassProperty={"Material":parameters['material'],"Thickness":parameters['thickness']}
+    item.ClassProperties={"Material":parameters['material'],"Thickness":parameters['thickness']}
     item.Project=ME.projectLibrary[projectName]
     item.ProjectParameters=parameters
     item.WorkFlow=work_flow
