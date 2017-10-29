@@ -183,7 +183,7 @@ class WorkPlan(object):
         self.Title = Title
         self.ClassWork = Class
         self.Machine = None
-        self.MachineParameters ={}
+        self.Parameters ={}
         self.Items= []
         self.Positions = [] #?????
         self.JobSequence = []
@@ -196,7 +196,7 @@ class WorkPlan(object):
             for step in i.WorkFlow:
                if self.ClassWork==step.Work:
                    blocks.append(step)
-        times=self.ClassWork.getData(self.Machine,blocks,self.MachineParameters)          
+        times=self.ClassWork.getData(self.Machine,blocks,self.Parameters)          
         return times
 
 
@@ -215,18 +215,13 @@ projectLibrary={}
 WORKSET = {}
 MATERIALS ={}
 MACHINES={}
-TTimes={"TCLoad",
-        "TPLoad",
-        "TCTool",
-        "TPTool",
-        "TCMove",
-        "TPMove",
-        "TCWork",
-        "TPWork",
-        "TCLook",
-        "TPLook",
-        "TCDwLd",
-        "TPDwLd"}
+
+TTimes={"Load",
+         "Tool",
+         "Move",
+         "Work",
+         "Look",
+         "DwLd"}
 
 
 from Works import *

@@ -77,7 +77,7 @@ def Execute(self,parameters):
     centerx=0.0
     centery=0.0
     
-    if 'holes' in parameters.keys():
+    if len(parameters['holes'])>0:
         for holes in parameters['holes']:
             radius=float(holes['dia'])/2
             if holes['type']==1:#plasma cut
@@ -100,8 +100,8 @@ def Execute(self,parameters):
                     nodes=[Point(cx,cy),Point(cx+radius,cy)]
                     shape.internal.append(Path(nodes,path))
 
-                shape.update() 
-                ws_plasma.Data={'shape':shape}       
+                #shape.update() 
+                #ws_plasma.Data={'shape':shape}       
                 
             elif holes['type']==2:#drill
                 ws_drill={"WorkClass":"Foratura",
@@ -113,7 +113,8 @@ def Execute(self,parameters):
                           "Weight":1}
 
     #### evaluate time production
-    
+    shape.update() 
+    ws_plasma.Data={'shape':shape}
 
     work_flow=[ws_plasma,ws_drill]
 

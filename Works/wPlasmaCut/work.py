@@ -41,41 +41,51 @@ def getData (machine,blocks,parameters):
     print (blocks[0].Work)
     print (parameters)
     
+    result={}
+    for t in makEasy.TTimes:
+        result[t]={"Price":machine.MacProperties['HPrices'][t],
+                   "KW":parameters[t]['KW']}
+        
+    
     kgmm3=makEasy.MATERIALS[parameters['Material']]['weight']
     total_area=0
-    t_load=parameters['TCLoad']['Time']
+    t_load=parameters['Load']['CTime']
     t_move=0
     t_work=0
+    t_dwld=0
     
-    
+
     for b in blocks:
+        print(b.Data)
         shape=b.Data['shape']
         l_cut=shape.perimeter['total']
         n_punch=1+len(shape.perimeter['internal'])
         total_area+=shape.boundBox.area
-        t_load+=0.2
-        t_move+=parameters['TCMove']['Time']*n_punch
-        t_work+=parameters['TCWork']['Time']*n_punch
-        t_work+=l_cut/parameters['TPWork']['Speed']
+        t_load+=0.1
+        t_move+=parameters['Move']['CTime']*n_punch
+        t_work+=parameters['Work']['CTime']*n_punch
+        t_work+=l_cut/parameters['Work']['Speed']
+        t_dwld+=parameters['DwLd']['CTime']
         
         print('lunghezza taglio:',l_cut)
         print('numero sfondamenti:',n_punch)
         
         
     w=total_area*kgmm3*parameters['Thickness']    
-    t_load+=parameters['TPLoad']['Ln']*math.log(w+1)
-    t_tool=parameters['TCTool']['Time']
-    t_look=0
-    t_dwld=0
+    t_load+=parameters['Load']['KFactor']*math.log(w+1)
+    t_tool=parameters['Tool']['CTime']
+    t_look=parameters['Look']['CTime']
+    t_dwld+=parameters['Load']['KFactor']*math.log(w+1)/2
     
 
-    result={'TLoad':t_load,
-           'TTool':t_tool,
-           'TMove':t_move,
-           'TWork':t_work,
-           'TLook':t_look,
-           'TDwLd':t_dwld}
-
+    result['Load']['Time']=t_load
+    result['Tool']['Time']=t_tool
+    result['Move']['Time']=t_move
+    result['Work']['Time']=t_work
+    result['Look']['Time']=t_look
+    result['DwLd']['Time']=t_dwld
+    
+   
     return result
 
 
