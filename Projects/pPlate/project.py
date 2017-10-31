@@ -30,7 +30,7 @@ import makEasy
 import types
 import math
 from dxfwrite import DXFEngine as dxf
-import cStringIO
+#import cStringIO
 import json
 
 
@@ -102,17 +102,17 @@ def Execute(self,parameters):
     if 'holes' in parameters.keys():
         for holes in parameters['holes']:
             if holes['work']==1:#taglio plasma
-                if holes['intfo']<>'':
+                if holes['intfo']!='':
                     modulo=float(holes['intfo'])/2
                 else:
                     modulo=0
 
-                if holes['num']<>'':
+                if holes['num']!='':
                     numfori=int(holes['num'])
                 else:
                     numfori=1
 
-                if holes['par']<>'':
+                if holes['par']!='':
                     angpar=float(holes['par'])
                 else:
                     angpar=0.0

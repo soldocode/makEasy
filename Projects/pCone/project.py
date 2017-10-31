@@ -112,8 +112,8 @@ def Execute(self,parameters):
     wNodes.append({'X':greater_radius_dev*cos_beta,'Y':greater_radius_dev*sin_beta})
     wNodes.append({'X':0,'Y':greater_radius_dev})
     wNodes.append({'X':greater_radius_dev*cos_alfa,'Y':greater_radius_dev*sin_alfa})
-    print 'Nodes:'
-    for i in wNodes: print i
+    #print 'Nodes:'
+    #for i in wNodes: print i
 
     chain_list=[[["Arc",3,1,2],["Line",1,6],["Arc",6,4,5],["Line",4,3]]]
 
