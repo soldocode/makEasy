@@ -69,7 +69,7 @@ def Execute(self,parameters):
     shape=Shape(p_ext,[p_int])
 
     #### create working sequence ###
-    ws_plasma=ME.WorkStep(ME.WORKSET['taglio_plasma'])
+    ws_plasma=ME.WorkStep(ME.WORKSET['PlasmaCut'])
     ws_drill=ME.WorkStep(ME.WORKSET['drill'])
 
 

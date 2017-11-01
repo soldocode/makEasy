@@ -152,14 +152,16 @@ class Item(object):
 class WorkStep(object):
     def __init__(self,w,d={}):
         self.Id = None
-        self.Time = 0
+        #self.Times = {'total':0}
         self.Work = w
         self.Data = d
+        self.WorkData = {}
         self.Item = None
         self.WorkPlan = None
+        #self.Costs = {'total':0}
         
     def __repr__(self):
-        return "Working of "+ repr(self.Work) + " on item "+ repr(self.Item)  
+        return repr(self.Work)+" on "+repr(self.Item)
 
 
 class Work(object):
@@ -171,7 +173,7 @@ class Work(object):
         self.Class = wclass
        
     def __repr__(self):
-        return  self.Title     
+        return  str(self.Class)     
 
 
 class WorkPlan(object):
@@ -189,6 +191,17 @@ class WorkPlan(object):
         self.JobSequence = []
         self.Times={}
         
+    def updateWorkData(self):#????????????????
+        blocks=[]
+        times={}
+        for i in self.Items:
+            for step in i.WorkFlow:
+               if self.ClassWork==step.Work:
+                   blocks.append(step)
+        times=self.ClassWork.getData(self.Machine,blocks,self.Parameters)          
+        return times
+        
+        
     def getTimes(self):
         blocks=[]
         times={}
@@ -200,7 +213,7 @@ class WorkPlan(object):
         return times
 
 
-class Machines(object):
+class Machine(object):
     def __init__(self,Id=None,Name=""):
         self.Id=Id
         self.Name=Name

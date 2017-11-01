@@ -38,7 +38,7 @@ def WorkOut(args):
 
 def getData (machine,blocks,parameters):
     print (machine.Name)
-    print (blocks[0].Work)
+    #print (blocks[0].Work)
     print (parameters)
     
     result={}
@@ -53,29 +53,43 @@ def getData (machine,blocks,parameters):
     t_move=0
     t_work=0
     t_dwld=0
+    s_w=0
     
 
     for b in blocks:
+               
         print(b.Data)
         shape=b.Data['shape']
         l_cut=shape.perimeter['total']
         n_punch=1+len(shape.perimeter['internal'])
+        p_w=shape.area['total']*kgmm3*parameters['Thickness']
+        s_w+=p_w
         total_area+=shape.boundBox.area
-        t_load+=0.1
-        t_move+=parameters['Move']['CTime']*n_punch
-        t_work+=parameters['Work']['CTime']*n_punch
-        t_work+=l_cut/parameters['Work']['Speed']
-        t_dwld+=parameters['DwLd']['CTime']
+        p_load=0.1
+        p_move=parameters['Move']['CTime']*n_punch
+        p_work=parameters['Work']['CTime']*n_punch
+        p_work+=l_cut/parameters['Work']['Speed']
+        p_dwld=parameters['DwLd']['CTime']
+        p_dwld+=parameters['Load']['KFactor']*math.log(p_w+1)
         
         print('lunghezza taglio:',l_cut)
         print('numero sfondamenti:',n_punch)
+        partial={}
+        for t in makEasy.TTimes:
+            partial[t]={"Price":machine.MacProperties['HPrices'][t],
+                        "KW":parameters[t]['KW']}
+        partial['Load']['Time']=p_load
+        partial['Move']['Time']=p_move
+        partial['Work']['Time']=p_work
+        partial['DwLd']['Time']=p_dwld
+        b.WorkData=partial
         
         
     w=total_area*kgmm3*parameters['Thickness']    
     t_load+=parameters['Load']['KFactor']*math.log(w+1)
     t_tool=parameters['Tool']['CTime']
     t_look=parameters['Look']['CTime']
-    t_dwld+=parameters['Load']['KFactor']*math.log(w+1)/2
+    t_dwld+=parameters['Load']['KFactor']*math.log((w-s_w)+1)
     
 
     result['Load']['Time']=t_load
@@ -91,9 +105,9 @@ def getData (machine,blocks,parameters):
 
 
 work=makEasy.Work('PlasmaCut','Taglio Plasma')
-work.Type='taglio_plasma'
+#work.Type='taglio_plasma'
 work.Folder='wPlasmaCut'
 work.Execute=Execute
 work.getData=getData
 
-makEasy.WORKSET[work.Type]= work
+makEasy.WORKSET[work.Class]= work

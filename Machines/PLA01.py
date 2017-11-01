@@ -1,7 +1,7 @@
 import makEasy
 import types
 
-mac=makEasy.Machines("PLA01","Plasma BBS")
+mac=makEasy.Machine("PLA01","Plasma BBS")
 
 mac.MacProperties= {
     "XMax": 6000,
