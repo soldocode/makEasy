@@ -47,7 +47,7 @@ meProject.makeCircularFlange= function(pp)
                     theta = (((Math.PI * 2)/ num_holes)*c)+((dstart)/360*(Math.PI * 2));
                     px= Math.cos(theta) * (int_holes/2);
                     py= Math.sin(theta) * (int_holes/2);
-                    shapeHolePath=make_hole_path(pp.holes[i].dia,px,py);
+                    shapeHolePath=make_hole_path(pp.holes[i].circular_holes_dia,px,py);
                     ClipperLib.JS.ScaleUpPaths(shapeHolePath, scale);
                     cpr.AddPath(shapeHolePath, ClipperLib.PolyType.ptSubject, true);
                     cpr.AddPaths(solution_paths, ClipperLib.PolyType.ptClipt, true);

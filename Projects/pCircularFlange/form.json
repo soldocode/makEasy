@@ -33,7 +33,7 @@
     {
       "class": "number",
       "label": "diametro interno",
-      "value": 500,
+      "value": 400,
       "width": 40,
       "name": "dia_int",
       "args": {}
@@ -44,47 +44,14 @@
       "id": "holes",
       "count": -1,
       "form": [
-        {
-          "class": "list",
-          "label": "tipo",
-          "name": "type",
-          "value":"1",
-          "width": 50,
-          "args": {},
-          "values": [
-            {
-              "text": "Grezzo a Plasma",
-              "value": "1"
-            },
-            {
-              "text": "Ricavato a Trapano",
-              "value": "2",
-              "": ""
-            },
-             {
-              "text": "Filettato",
-              "value": "2",
-              "": ""
-            },
-             {
-              "text": "Svasato",
-              "value": "2",
-              "": ""
-            }
-          ]
-        },
-        {
-          "class": "number",
-          "label": "Ø foro",
-          "value": 0,
-          "width": 40,
-          "name": "dia",
-          "args": {}
+        { "class":"hole",
+          "name":"circular_holes",
+          "value":"{\"type\":1,\"dia\":20}"
         },
         {
           "class": "number",
           "label": "interasse foratura",
-          "value": 0,
+          "value": 450,
           "width": 40,
           "name": "intfo",
           "args": {}
