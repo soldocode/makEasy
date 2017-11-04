@@ -38,32 +38,24 @@ def WorkOut(args):
 
 def getData (machine,blocks,parameters):
     print (machine.Name)
-    #print (blocks[0].Work)
-    print (parameters)
-    
-    result={}
-    for t in makEasy.TTimes:
-        result[t]={"Price":machine.MacProperties['HPrices'][t],
-                   "KW":parameters[t]['KW']}
-        
-    
+   
     kgmm3=makEasy.MATERIALS[parameters['Material']]['weight']
     total_area=0
     t_load=parameters['Load']['CTime']
     t_move=0
     t_work=0
     t_dwld=0
-    s_w=0
+    weight_blocks=0
     
 
     for b in blocks:
                
-        print(b.Data)
+        #print(b.Data)
         shape=b.Data['shape']
         l_cut=shape.perimeter['total']
         n_punch=1+len(shape.perimeter['internal'])
         p_w=shape.area['total']*kgmm3*parameters['Thickness']
-        s_w+=p_w
+        weight_blocks+=p_w
         total_area+=shape.boundBox.area
         p_load=0.1
         p_move=parameters['Move']['CTime']*n_punch
@@ -72,12 +64,14 @@ def getData (machine,blocks,parameters):
         p_dwld=parameters['DwLd']['CTime']
         p_dwld+=parameters['Load']['KFactor']*math.log(p_w+1)
         
-        print('lunghezza taglio:',l_cut)
-        print('numero sfondamenti:',n_punch)
+        #print('lunghezza taglio:',l_cut)
+        #print('numero sfondamenti:',n_punch)
         partial={}
+        partial['Weight']=p_w
         for t in makEasy.TTimes:
             partial[t]={"Price":machine.MacProperties['HPrices'][t],
-                        "KW":parameters[t]['KW']}
+                        "KW":parameters[t]['KW'],
+                        "Time":0}
         partial['Load']['Time']=p_load
         partial['Move']['Time']=p_move
         partial['Work']['Time']=p_work
@@ -85,27 +79,24 @@ def getData (machine,blocks,parameters):
         b.WorkData=partial
         
         
+    num=len(blocks)    
     w=total_area*kgmm3*parameters['Thickness']    
-    t_load+=parameters['Load']['KFactor']*math.log(w+1)
-    t_tool=parameters['Tool']['CTime']
-    t_look=parameters['Look']['CTime']
-    t_dwld+=parameters['Load']['KFactor']*math.log((w-s_w)+1)
+    t_load+=(parameters['Load']['KFactor']*math.log(w+1))
+    t_tool=parameters['Tool']['CTime']/num
+    t_look=parameters['Look']['CTime']/num
+    t_dwld+=(parameters['Load']['KFactor']*math.log((w-weight_blocks)+1))
     
-
-    result['Load']['Time']=t_load
-    result['Tool']['Time']=t_tool
-    result['Move']['Time']=t_move
-    result['Work']['Time']=t_work
-    result['Look']['Time']=t_look
-    result['DwLd']['Time']=t_dwld
-    
+    for b in blocks:
+        b.WorkData['Load']['Time']+=t_load/weight_blocks*b.WorkData['Weight']
+        b.WorkData['Tool']['Time']+=t_tool
+        b.WorkData['Look']['Time']+=t_look
+        b.WorkData['DwLd']['Time']+=t_dwld/weight_blocks*b.WorkData['Weight']
    
-    return result
+    return
 
 
 
 work=makEasy.Work('PlasmaCut','Taglio Plasma')
-#work.Type='taglio_plasma'
 work.Folder='wPlasmaCut'
 work.Execute=Execute
 work.getData=getData

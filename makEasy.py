@@ -56,11 +56,11 @@ class Material(object):
 
 class Item(object):
     def __init__(self,
-                 ID=None,
                  Title='',
                  Project=None,
-                 Class=None):
-        self.Id = ID
+                 Class=None,
+                 Id=None):
+        self.Id = Id
         self.Class = Class  #'assembly','sheet','profile?','component'
         self.ClassProperty=None
         self.ClassProperties={}
@@ -243,9 +243,10 @@ from Machines import *
 import Materials
 
 
-def newItemFromProject(projectName,parameters):
+def newItemFromProject(projectName,parameters,Id=None):
 
     item=projectLibrary[projectName].Execute(parameters)
+    item.Id=Id
     jp=jsonpickle.encode(item)
     #print jp
 
