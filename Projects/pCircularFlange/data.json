@@ -1,7 +1,7 @@
 {
     "material": "S235JR",
     "thickness": 5.0,
-    "dia_est": 450,
-    "dia_int": 350,
+    "dia_est": 500,
+    "dia_int": 400,
     "id_holes": -1
 }
