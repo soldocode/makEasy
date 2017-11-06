@@ -3,6 +3,10 @@
   "title": "FLANGIA CIRCOLARE",
   "cod":"CIFL01",
   "form_data": [
+    { "class":"sheet_material",
+      "name":"sheet",
+      "value":"{\"material\":\"S235JR\",\"thickness\":\"5\"}"
+    },
     {
       "class": "list",
       "label": "materiale",
@@ -12,8 +16,8 @@
       "type":"string",
       "values":[],
       "args":{}
-     },
-     {
+    },
+    {
     "class": "list",
     "label": "spessore",
     "value": 5,

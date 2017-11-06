@@ -1,4 +1,5 @@
 {
+    "sheet":"{\"material\":\"S235JR\",\"thickness\":\"5\"}",
     "material": "S235JR",
     "thickness": 5.0,
     "dia_est": 500,
