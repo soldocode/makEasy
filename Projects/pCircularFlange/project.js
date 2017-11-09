@@ -1,10 +1,8 @@
 
-meForm.SheetMaterial.loadData("/makeasy/item/getJson","Materials/material_quality.json")
-
 meProject.makeCircularFlange= function(pp)
 {
     var obj= new THREE.Object3D();
-    var thk=parseFloat(pp.thickness);
+    var thk=parseFloat(pp.sheet_thk);
 
 
     length=pp.dia_est;
@@ -105,20 +103,16 @@ function makeObject(id)
 
 function update_shape()
 {
-    if (objects.project)
-    {
-         scene.remove(objects.project.element);
-    }
-     makeObject('project');
-     scene.add(objects.project.element);
-    }
+    if (objects.project){scene.remove(objects.project.element);}
+    makeObject('project');
+    scene.add(objects.project.element);
+}
 
 
 function after_deploy()
 {
-    fill_materials_selector();
+    meForm.SheetMaterial.updateMaterialField('sheet');
 }
-
 
 meForm.afterDeployForm=after_deploy
 $(".value").on("change",update_shape);

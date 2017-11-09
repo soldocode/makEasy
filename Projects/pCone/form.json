@@ -4,22 +4,9 @@
   "cod":"TRCO",
   "form_data":[
   {
-      "class": "list",
-      "label": "materiale",
-      "name": "material",
-      "width": 50,
-      "value": 1,
-      "values":[],
-      "args":{}
-  },
-  {
-    "class": "list",
-    "label": "spessore",
-    "value": 5,
-    "width": 30,
-    "values":[{"text":"5,0","value":5.0}],
-    "name": "thickness",
-    "args": {}
+    "class":"sheet_material",
+    "name":"sheet",
+    "value":"{\"material\":\"S235JR\",\"thickness\":\"5\"}"
   },
   {
     "class": "number",

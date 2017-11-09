@@ -8,25 +8,6 @@
       "value":"{\"material\":\"S235JR\",\"thickness\":\"5\"}"
     },
     {
-      "class": "list",
-      "label": "materiale",
-      "name": "material",
-      "width": 50,
-      "value": 1,
-      "type":"string",
-      "values":[],
-      "args":{}
-    },
-    {
-    "class": "list",
-    "label": "spessore",
-    "value": 5,
-    "width": 30,
-    "values":[],
-    "name": "thickness",
-    "args": {}
-    },
-    {
       "class": "number",
       "label": "diametro esterno",
       "value": 500,

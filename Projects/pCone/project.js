@@ -5,7 +5,7 @@ function makeObject(id)
      // get parameters
      var dia_max=parseFloat($("input[name='dia_max:number']").val());
      var dia_min=parseFloat($("input[name='dia_min:number']").val());
-     var thickness=parseFloat($("select[name='thickness:number']").val());
+     var thickness=parseFloat($("select[name='sheet_thk:number']").val());
      var height=parseFloat($("input[name='height:number']").val());
      var parts=parseFloat($("input[name='parts:number']").val());
      var delta_radius=(dia_max-dia_min)/2;
