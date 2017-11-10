@@ -31,7 +31,7 @@ def ValidateParameters(self,parameters):
     if not('dia_max' in parameters):parameters['dia_max']=0.0
     if not('dia_min' in parameters):parameters['dia_min']=0.0
     if not('height' in parameters):parameters['height']=0.0
-    if not('thickness' in parameters):parameters['thickness']=0.0
+    if not('sheet_thk' in parameters):parameters['sheet_thk']=0.0
     return True
 
 
@@ -42,7 +42,7 @@ def Execute(self,parameters):
     ### calcola la sezione di sviluppo ###
     d=float((parameters['dia_max']-parameters['dia_min']))/2
     h=float(parameters['height'])
-    t=float(parameters['thickness'])
+    t=float(parameters['sheet_thk'])
 
     alfa=math.atan(d/h)
     #print 'alfa:',math.degrees(alfa)
@@ -100,7 +100,7 @@ def Execute(self,parameters):
     work_flow=[]
 
     ## Taglio Plasma ##
-    work=makEasy.WORKSET['taglio_plasma']
+    work=makEasy.WORKSET['PlasmaCut']
     wNodes=[{'X':0,'Y':0}]
     sin_alfa=math.sin(math.radians(90-dev_degree/2))
     cos_alfa=math.cos(math.radians(90-dev_degree/2))
@@ -158,7 +158,7 @@ def Execute(self,parameters):
     item=makEasy.Item()
     item.Class="sheet"
     item.Weight=w
-    item.ClassProperty={"Material":"Fe","Thickness":parameters['thickness']}
+    item.ClassProperty={"Material":"Fe","Thickness":parameters['sheet_thk']}
     item.Project=makEasy.projectLibrary[projectName]
     item.ProjectParameters=parameters
     item.WorkFlow=work_flow

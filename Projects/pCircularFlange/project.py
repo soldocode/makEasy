@@ -79,8 +79,8 @@ def Execute(self,parameters):
     
     if len(parameters['holes'])>0:
         for holes in parameters['holes']:
-            radius=float(holes['dia'])/2
-            if holes['type']==1:#plasma cut
+            radius=float(holes['circular_holes_dia'])/2
+            if holes['circular_holes_type']==1:#plasma cut
                 if holes['intfo']!='':
                     module=float(holes['intfo'])/2
                 else:
@@ -103,7 +103,7 @@ def Execute(self,parameters):
                 #shape.update() 
                 #ws_plasma.Data={'shape':shape}       
                 
-            elif holes['type']==2:#drill
+            elif holes['circular_holes_type']==2:#drill
                 ws_drill={"WorkClass":"Foratura",
                           "Id":'',
                           "Nodes":wNodes,
@@ -121,8 +121,8 @@ def Execute(self,parameters):
 
     item=ME.Item()
     item.Class="sheet"
-    item.Weight=shape.area['total']*parameters['thickness']*7.9/1000000
-    item.ClassProperties={"Material":parameters['material'],"Thickness":parameters['thickness']}
+    item.Weight=shape.area['total']*parameters['sheet_thk']*7.9/1000000
+    item.ClassProperties={"Material":parameters['sheet_mat'],"Thickness":parameters['sheet_thk']}
     item.Project=ME.projectLibrary[projectName]
     item.ProjectParameters=parameters
     item.WorkFlow=work_flow
