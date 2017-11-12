@@ -6,7 +6,9 @@
 
 
 import makEasy
-import math
+import math,g2
+from dxfwrite import DXFEngine as dxf
+
 
 def Execute (lunghezza, spessore, diametro):
     job = makEasy.Job()
@@ -95,10 +97,18 @@ def getData (machine,blocks,parameters):
     return
 
 
+def getDXF (data):
+    dwg=g2.Drawing()
+    dwg.insertGeo('work',data['shape'])
+    print(dwg.boundBox)
+    dxf_result=dwg.getDXF()
+    return dxf_result
+    
 
 work=makEasy.Work('PlasmaCut','Taglio Plasma')
 work.Folder='wPlasmaCut'
 work.Execute=Execute
 work.getData=getData
+work.getDXF=getDXF
 
 makEasy.WORKSET[work.Class]= work

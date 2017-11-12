@@ -95,7 +95,7 @@ class Item(object):
         jp=jsonpickle.encode(self)
 #        print jp
         return
-
+               
         
     def ExportDXF (self):
         output = io.StringIO()
@@ -159,6 +159,18 @@ class WorkStep(object):
         self.Item = None
         self.WorkPlan = None
         #self.Costs = {'total':0}
+        
+    def getDXF(self):
+        return self.Work.getDXF(self.Data) 
+    
+    def saveAs(self,file_type,file_path):
+        content_to_save={'DXF':self.getDXF}
+        content=content_to_save[file_type]()
+        f=open(file_path+"."+file_type,'w')
+        f.write(content)
+        f.close()
+        return
+        
         
     def __repr__(self):
         return repr(self.Work)+" on "+repr(self.Item)
