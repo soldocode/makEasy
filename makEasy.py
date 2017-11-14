@@ -97,56 +97,56 @@ class Item(object):
         return
                
         
-    def ExportDXF (self):
-        output = io.StringIO()
-        drawing = dxf.drawing('c:/item.dxf')
-        if len(self.WorkFlow)>0:
-            works=self.WorkFlow
-            for work in works:
-                if work[0].Class=='PlasmaCut':
-                    nodes=work[1]['Nodes']
-                    chains=work[1]['Chain']
-                    if len(chains)>0:
-                        for chain in chains:
-                            for geo in chain:
+#    def ExportDXF (self):
+#        output = io.StringIO()
+#        drawing = dxf.drawing('c:/item.dxf')
+#        if len(self.WorkFlow)>0:
+#            works=self.WorkFlow
+#            for work in works:
+#                if work[0].Class=='PlasmaCut':
+#                    nodes=work[1]['Nodes']
+#                    chains=work[1]['Chain']
+#                    if len(chains)>0:
+#                        for chain in chains:
+#                            for geo in chain:
 
-                                if geo[0]=='Line':
-                                    print ('Line')
-                                    drawing.add(dxf.line((nodes[geo[1]]['X'],
-                                                          nodes[geo[1]]['Y']),
-                                                         (nodes[geo[2]]['X'],
-                                                          nodes[geo[2]]['Y'])))
-                                elif geo[0]=='Arc':
-                                    print('arc')
-                                    arcgen=geoFun.CircleFrom3Points([nodes[geo[1]]['X'],
-                                                                     nodes[geo[1]]['Y']],
-                                                                    [nodes[geo[3]]['X'],
-                                                                     nodes[geo[3]]['Y']],
-                                                                    [nodes[geo[2]]['X'],
-                                                                     nodes[geo[2]]['Y']])
+#                                if geo[0]=='Line':
+#                                    print ('Line')
+#                                    drawing.add(dxf.line((nodes[geo[1]]['X'],
+#                                                          nodes[geo[1]]['Y']),
+#                                                         (nodes[geo[2]]['X'],
+#                                                          nodes[geo[2]]['Y'])))
+#                                elif geo[0]=='Arc':
+#                                    print('arc')
+#                                    arcgen=geoFun.CircleFrom3Points([nodes[geo[1]]['X'],
+#                                                                     nodes[geo[1]]['Y']],
+#                                                                    [nodes[geo[3]]['X'],
+#                                                                     nodes[geo[3]]['Y']],
+#                                                                    [nodes[geo[2]]['X'],
+#                                                                     nodes[geo[2]]['Y']])
 
-                                    if arcgen['Direction']>0:
-                                        drawing.add(dxf.arc(arcgen['Radius'],
-                                                           (arcgen['Center'][0],arcgen['Center'][1]),
-                                                            math.degrees(arcgen['P3Degree']),
-                                                            math.degrees(arcgen['P1Degree'])))
-                                    else:
-                                        drawing.add(dxf.arc(arcgen['Radius'],
-                                                           (arcgen['Center'][0],arcgen['Center'][1]),
-                                                            math.degrees(arcgen['P1Degree']),
-                                                            math.degrees(arcgen['P3Degree'])))
+#                                    if arcgen['Direction']>0:
+#                                       drawing.add(dxf.arc(arcgen['Radius'],
+ #                                                          (arcgen['Center'][0],arcgen['Center'][1]),
+#                                                            math.degrees(arcgen['P3Degree']),
+#                                                            math.degrees(arcgen['P1Degree'])))
+#                                    else:
+#                                        drawing.add(dxf.arc(arcgen['Radius'],
+#                                                           (arcgen['Center'][0],arcgen['Center'][1]),
+#                                                            math.degrees(arcgen['P1Degree']),
+#                                                            math.degrees(arcgen['P3Degree'])))
 
 
 
-                                elif geo[0]=='Circle':
-                                    print('circle')
-                                    radius=nodes[geo[2]]['X']-nodes[geo[1]]['X']
-                                    drawing.add(dxf.circle(radius,(nodes[geo[1]]['X'], nodes[geo[1]]['Y'])))
+#                                elif geo[0]=='Circle':
+#                                    print('circle')
+#                                    radius=nodes[geo[2]]['X']-nodes[geo[1]]['X']
+#                                    drawing.add(dxf.circle(radius,(nodes[geo[1]]['X'], nodes[geo[1]]['Y'])))
 
-        drawing.save_to_fileobj(output)
-        dxf_result=[output.getvalue()]
+#        drawing.save_to_fileobj(output)
+#        dxf_result=[output.getvalue()]
 
-        return dxf_result
+#        return dxf_result
 
 
 class WorkStep(object):
@@ -256,11 +256,8 @@ import Materials
 
 
 def newItemFromProject(projectName,parameters,Id=None):
-
     item=projectLibrary[projectName].Execute(parameters)
     item.Id=Id
     jp=jsonpickle.encode(item)
-    #print jp
-
     return item
 

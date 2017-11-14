@@ -19,6 +19,7 @@ import makEasy
 import types
 import math
 import json
+from g2 import *
 
 
 projectName='Tronco di Cono'
@@ -36,6 +37,77 @@ def ValidateParameters(self,parameters):
 
 
 def Execute(self,parameters):
+    ValidateParameters(self,parameters)
+    
+    ### get section ###
+    mat=parameters['sheet_mat']
+    d=float((parameters['dia_max']-parameters['dia_min']))/2
+    h=float(parameters['height'])
+    t=float(parameters['sheet_thk'])
+    alfa=math.atan(d/h)
+    h2=t*math.sin(alfa)
+    h1=h-h2
+    beta=math.atan(d/h1)
+    h2=t*math.sin(beta)
+    delta=h1+h2-h
+    while delta>0:
+        h1=h-h2
+        beta=math.atan(d/h1)
+        h2=t*math.sin(beta)
+        delta=h1+h2-h
+    tdiff=math.sqrt(math.pow(t,2)-math.pow(h2,2))
+
+    ### develop cone ###
+    diam_max=float(parameters['dia_max']-tdiff)
+    diam_min=float(parameters['dia_min']-tdiff)
+    oblique_side=math.sqrt(math.pow(d,2)+math.pow(h1,2))
+    greater_circ=diam_max*math.pi
+    greater_radius_dev=oblique_side/d*(diam_max/2)
+    smaller_radius_dev=greater_radius_dev-oblique_side
+    greater_circ_dev=greater_radius_dev*2*math.pi
+    dev_degree=360/greater_circ_dev*greater_circ
+    dev_degree=dev_degree/parameters['parts']
+
+    ### create Shape
+    nd=[Point(0,0)]
+    sin_alfa=math.sin(math.radians(90-dev_degree/2))
+    cos_alfa=math.cos(math.radians(90-dev_degree/2))
+    sin_beta=math.sin(math.radians(90+dev_degree/2))
+    cos_beta=math.cos(math.radians(90+dev_degree/2))
+    nd.append(Point(smaller_radius_dev*cos_alfa,smaller_radius_dev*sin_alfa))
+    nd.append(Point(0,smaller_radius_dev))
+    nd.append(Point(smaller_radius_dev*cos_beta,smaller_radius_dev*sin_beta))
+    nd.append(Point(greater_radius_dev*cos_beta,greater_radius_dev*sin_beta))
+    nd.append(Point(0,greater_radius_dev))
+    nd.append(Point(greater_radius_dev*cos_alfa,greater_radius_dev*sin_alfa))    
+    ch=[3,'Arc',2,1,'Line',6,'Arc',5,4,'Line',3]
+    p_ext=Path(nd,ch)
+    shape=Shape(p_ext)
+    
+
+    #### create working sequence ###
+    ws_plasma=makEasy.WorkStep(makEasy.WORKSET['PlasmaCut'])
+    
+    #### evaluate time production
+    shape.update() 
+    ws_plasma.Data={'shape':shape}
+
+    work_flow=[ws_plasma]
+
+    ### create item
+    item=makEasy.Item()
+    item.Class="sheet"
+    item.ClassProperty={"Material":mat,"Thickness":t}
+    item.Weight=shape.area['total']*t*makEasy.MATERIALS[mat]['weight']
+    item.Project=makEasy.projectLibrary[projectName]
+    item.ProjectParameters=parameters
+    item.WorkFlow=work_flow
+    return item
+
+
+    
+    
+def Execute_old(self,parameters):
     self.ProjectExecuted=True
     ValidateParameters(self,parameters)
 

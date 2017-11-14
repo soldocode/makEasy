@@ -50,7 +50,8 @@ def ValidateParameters(self,parameters):
 
 def Execute(self,parameters):
     
-    #mat_id=parameters['material']+'|'+str(parameters['thickness'])
+    mat=parameters['sheet_mat']
+    thk=parameters['sheet_thk']
     
     #var_plasma=ME.MACHINES['PLA01'].getParameters(mat_id)
 
@@ -121,7 +122,7 @@ def Execute(self,parameters):
 
     item=ME.Item()
     item.Class="sheet"
-    item.Weight=shape.area['total']*parameters['sheet_thk']*7.9/1000000
+    item.Weight=shape.area['total']*thk*ME.MATERIALS[mat]['weight']
     item.ClassProperties={"Material":parameters['sheet_mat'],"Thickness":parameters['sheet_thk']}
     item.Project=ME.projectLibrary[projectName]
     item.ProjectParameters=parameters
