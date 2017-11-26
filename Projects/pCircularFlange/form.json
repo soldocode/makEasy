@@ -60,7 +60,7 @@
       ],
       "add_button": {
                       "label": "Aggiungi Foratura",
-                      "args": {}
+                      "args": {"onclick":"addHolesForm()"}
                     },
       "after_deletion_callback":"refresh_form"
     }

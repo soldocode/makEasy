@@ -109,6 +109,26 @@ function update_shape()
 }
 
 
+function addHolesForm()
+{
+    dia_est=parseFloat($("input[name='dia_est:number']").val())
+    dia_int=parseFloat($("input[name='dia_int:number']").val())
+    dia_middle=(dia_est+dia_int)/2
+    count=$("input[name='id_holes']").val()
+    form=[{"name":"circular_holes","class":"hole","value":"{\"type\":\"1\",\"dia\":\"20\"}"},
+          {"name":"intfo","args":{},"value":dia_middle,"label":"interasse foratura","width":40,"class":"number"},
+          {"name":"num","args":{},"value":1,"label":"numero fori","width":40,"class":"number"},
+          {"name":"par","args":{},"value":0,"label":"angolo primo foro","width":40,"class":"number"}]
+    meForm.addSForm({"count":count,
+                     "form":form,
+                     "class":"multiple-subform",
+                     "after_deletion_callback":"refresh_form",
+                     "add_button":{"args":{},"label":"Aggiungi Foratura"},
+                     "label":"foratura",
+                     "id":"holes"})
+}
+
+
 function after_deploy()
 {
     meForm.SheetMaterial.updateMaterialField('sheet');

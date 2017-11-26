@@ -38,7 +38,7 @@ def ValidateParameters(self,parameters):
 
 def Execute(self,parameters):
     ValidateParameters(self,parameters)
-    
+
     ### get section ###
     mat=parameters['sheet_mat']
     d=float((parameters['dia_max']-parameters['dia_min']))/2
@@ -79,17 +79,17 @@ def Execute(self,parameters):
     nd.append(Point(smaller_radius_dev*cos_beta,smaller_radius_dev*sin_beta))
     nd.append(Point(greater_radius_dev*cos_beta,greater_radius_dev*sin_beta))
     nd.append(Point(0,greater_radius_dev))
-    nd.append(Point(greater_radius_dev*cos_alfa,greater_radius_dev*sin_alfa))    
+    nd.append(Point(greater_radius_dev*cos_alfa,greater_radius_dev*sin_alfa))
     ch=[3,'Arc',2,1,'Line',6,'Arc',5,4,'Line',3]
     p_ext=Path(nd,ch)
     shape=Shape(p_ext)
-    
+
 
     #### create working sequence ###
     ws_plasma=makEasy.WorkStep(makEasy.WORKSET['PlasmaCut'])
-    
+
     #### evaluate time production
-    shape.update() 
+    shape.update()
     ws_plasma.Data={'shape':shape}
 
     work_flow=[ws_plasma]
@@ -97,7 +97,7 @@ def Execute(self,parameters):
     ### create item
     item=makEasy.Item()
     item.Class="sheet"
-    item.ClassProperty={"Material":mat,"Thickness":t}
+    item.ClassProperties={"Material":mat,"Thickness":t}
     item.Weight=shape.area['total']*t*makEasy.MATERIALS[mat]['weight']
     item.Project=makEasy.projectLibrary[projectName]
     item.ProjectParameters=parameters
@@ -105,8 +105,8 @@ def Execute(self,parameters):
     return item
 
 
-    
-    
+
+
 def Execute_old(self,parameters):
     self.ProjectExecuted=True
     ValidateParameters(self,parameters)
