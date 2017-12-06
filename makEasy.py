@@ -34,15 +34,14 @@ class Project(object):
         self.Path =path
         
     # get project data representation    
-    def getDataRepr(self,data):
-        print(data)
-        result={}
+    def getDataRepr(self,data={}):
+        result=[]
         f = open(FOLDER+'/Projects/'+self.Path+'/form.json', 'r')
         prj_form=json.load(f)
         f.close()
-        for field in prj_form['form_data']:
-            
-            result.update(getPrjDataRepr[field['class']](data[field['name']]))
+        for field in prj_form['form_data']: 
+            if field['name'] in data:
+                result.append(getPrjDataRepr[field['class']](field,data[field['name']]))
         return result
         
 
@@ -186,17 +185,40 @@ class Machine(object):
         return {}
 
 
-def _getPrjNumber(v):
-    return v
+def _getPrjNumber(f,d=None):
+    if d==None:
+        d=f['value']
+    return {f['label']:d}
 
-def _getPrjMultipleSubForm(v):
-    return v
+def _getPrjMultipleSubForm(f,d=None):
+    print(d)
+    form=f['form']
+    result=[]
+    for data in d:
+        sub=[]
+        for field in form:
+            #print (field)
+            #print (data)
+            sub.append(getPrjDataRepr[field['class']](field,data[field['name']]))
+        result.append(sub)    
+    return {f['label']:result}
 
-def _getPrjSheetMaterial(v):
-    return v
+def _getPrjSheetMaterial(f,d=None):
+    values=json.loads(f['value'])
+    return dict(materiale=values['material']+' sp.'+values['thickness']+'mm')
 
-def _getPrjHole(v):
-    return v
+def _getPrjHole(f,d=None):
+    data=json.loads(d)
+    result={}
+    if data['type']=="1":
+        result=dict(foro='grezzo Ø '+str(data['dia'])+"mm")
+    elif data['type']=="2":
+        result=dict(foro='a trapano Ø '+str(data['dia'])+"mm")
+    elif data['type']=="3":
+        result=dict(foro='filettato M'+str(data['dia']))
+    elif data['type']=="4":
+        result=dict(foro='svasato per vite M'+str(data['dia']))
+    return result
 
 getPrjDataRepr={'number':_getPrjNumber,
                 'multiple-subform':_getPrjMultipleSubForm,

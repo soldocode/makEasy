@@ -26,6 +26,7 @@
     {
       "class": "multiple-subform",
       "label": "foratura",
+      "name":"holes",
       "id": "holes",
       "count": -1,
       "form": [
