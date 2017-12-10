@@ -13,7 +13,7 @@ import sys,os
 
 if sys.version_info[0]==3:
     import io
-else:    
+else:
     import cStringIO as io
 
 FOLDER=(os.path.dirname(__file__))
@@ -32,18 +32,18 @@ class Project(object):
         self.Name = name
         self.Description = description
         self.Path =path
-        
-    # get project data representation    
+
+    # get project data representation
     def getDataRepr(self,data={}):
         result=[]
         f = open(FOLDER+'/Projects/'+self.Path+'/form.json', 'r')
         prj_form=json.load(f)
         f.close()
-        for field in prj_form['form_data']: 
+        for field in prj_form['form_data']:
             if field['name'] in data:
                 result.append(getPrjDataRepr[field['class']](field,data[field['name']]))
         return result
-        
+
 
 class Material(object):
     def __init__(self,
@@ -79,23 +79,23 @@ class Item(object):
         self.ProjectParametersValidated=True
         return True
 
-        
+
     def toJson(self):
         jsonItem=jsonpickle.encode(self)
         return jsonItem
 
-        
+
     def addWork(self,wClass):
         self.WorkFlow.append({"Class":wClass,
                               "Time":0})
         return len(self.WorkFlow)
 
-        
+
     def SaveAs(filePath):
         jp=jsonpickle.encode(self)
 #        print jp
         return
-               
+
 
 
 class WorkStep(object):
@@ -108,10 +108,10 @@ class WorkStep(object):
         self.Item = None
         self.WorkPlan = None
         #self.Costs = {'total':0}
-        
+
     def getDXF(self):
-        return self.Work.getDXF(self.Data) 
-    
+        return self.Work.getDXF(self.Data)
+
     def saveAs(self,file_type,file_path):
         content_to_save={'DXF':self.getDXF}
         content=content_to_save[file_type]()
@@ -119,8 +119,8 @@ class WorkStep(object):
         f.write(content)
         f.close()
         return
-        
-        
+
+
     def __repr__(self):
         return repr(self.Work)+" on "+repr(self.Item)
 
@@ -132,9 +132,9 @@ class Work(object):
         self.Id = None
         self.Title = wtitle
         self.Class = wclass
-       
+
     def __repr__(self):
-        return  str(self.Class)     
+        return  str(self.Class)
 
 
 class WorkPlan(object):
@@ -151,7 +151,7 @@ class WorkPlan(object):
         self.Positions = [] #?????
         self.JobSequence = []
         self.Times={}
-        
+
     def updateWorkData(self):#????????????????
         blocks=[]
         times={}
@@ -159,10 +159,10 @@ class WorkPlan(object):
             for step in i.WorkFlow:
                if self.ClassWork==step.Work:
                    blocks.append(step)
-        times=self.ClassWork.getData(self.Machine,blocks,self.Parameters)          
+        times=self.ClassWork.getData(self.Machine,blocks,self.Parameters)
         return times
-        
-        
+
+
     def getTimes(self):
         blocks=[]
         times={}
@@ -170,7 +170,7 @@ class WorkPlan(object):
             for step in i.WorkFlow:
                if self.ClassWork==step.Work:
                    blocks.append(step)
-        times=self.ClassWork.getData(self.Machine,blocks,self.Parameters)          
+        times=self.ClassWork.getData(self.Machine,blocks,self.Parameters)
         return times
 
 
@@ -180,7 +180,7 @@ class Machine(object):
         self.Name=Name
         self.MacProperties={}
         self.TimeParameters={}
-        
+
     def getParameters(self,material):
         return {}
 
@@ -193,27 +193,32 @@ def _getPrjNumber(f,d=None):
 def _getPrjMultipleSubForm(f,d=None):
     print(d)
     form=f['form']
-    result=[]
+    result={}
+    i=0
     for data in d:
         sub=[]
+        i+=1
         for field in form:
             #print (field)
             #print (data)
             sub.append(getPrjDataRepr[field['class']](field,data[field['name']]))
-        result.append(sub)    
-    return {f['label']:result}
+        result[f['label']+str(i)]=sub
+    return result
 
-def _getPrjSheetMaterial(f,d=None):
-    values=json.loads(f['value'])
+def _getPrjSheetMaterial(f,v=None):
+    if v==None:
+        values=json.loads(f['value'])
+    else:
+        values=json.loads(v)
     return dict(materiale=values['material']+' sp.'+values['thickness']+'mm')
 
 def _getPrjHole(f,d=None):
     data=json.loads(d)
     result={}
     if data['type']=="1":
-        result=dict(foro='grezzo Ø '+str(data['dia'])+"mm")
+        result=dict(foro='grezzo diam '+str(data['dia'])+"mm")
     elif data['type']=="2":
-        result=dict(foro='a trapano Ø '+str(data['dia'])+"mm")
+        result=dict(foro='a trapano diam '+str(data['dia'])+"mm")
     elif data['type']=="3":
         result=dict(foro='filettato M'+str(data['dia']))
     elif data['type']=="4":
