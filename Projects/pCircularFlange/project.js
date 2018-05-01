@@ -26,50 +26,39 @@ meProject.makeCircularFlange= function(pp)
         obj.add(thkLine)
     }
 
-
+    // holes
     var id_hole=pp.id_holes;
-    var shapeHolesPaths=[];
-    var cpr = new ClipperLib.Clipper();
-    var solution_paths = [];
-    var scale = 100;
-    var shapeHolePath;
     var theta,px,py;
     if (id_hole>-1)
         {
             for (var i = 0; i <= id_hole; i++)
             {
                 var num_holes=pp.holes[i].num;
+                console.log(num_holes);
                 var dstart=pp.holes[i].par;
                 var int_holes=pp.holes[i].intfo;
+                var chd=pp.holes[i].circular_holes_dia
                 for (var c = 1; c <= num_holes; c++)
                 {
                     theta = (((Math.PI * 2)/ num_holes)*c)+((dstart)/360*(Math.PI * 2));
                     px= Math.cos(theta) * (int_holes/2);
                     py= Math.sin(theta) * (int_holes/2);
-                    shapeHolePath=make_hole_path(pp.holes[i].circular_holes_dia,px,py);
-                    ClipperLib.JS.ScaleUpPaths(shapeHolePath, scale);
-                    cpr.AddPath(shapeHolePath, ClipperLib.PolyType.ptSubject, true);
-                    cpr.AddPaths(solution_paths, ClipperLib.PolyType.ptClipt, true);
-                    var succeeded = cpr.Execute(1, solution_paths, 1, 1);
+                    var curpath=make_hole_path(chd,px,py);
+
+                    var hpath = new THREE.Path();
+                    hpath.moveTo(curpath[0].X,curpath[0].Y);
+                    for (var n = 1; n <curpath.length; n++)
+                    {
+                        hpath.lineTo(curpath[n].X,curpath[n].Y);
+                    }
+                    hpath.lineTo(curpath[0].X,curpath[0].Y);
+                    pShape.holes.push(hpath);
+                    obj.add(new THREE.Line(hpath.createPointsGeometry(),lineMaterial));
+                    var thkLine=new THREE.Line(hpath.createPointsGeometry(),lineMaterial);
+                    thkLine.position.z=thk;
+                    obj.add(thkLine);
                 }
            }
-        }
-
-    for (var h in solution_paths)
-        {
-            var curpath=solution_paths[h];
-            var hpath = new THREE.Path();
-            hpath.moveTo(curpath[0].X,curpath[0].Y);
-            for (var i = 1; i <curpath.length; i++)
-            {
-                hpath.lineTo(curpath[i].X,curpath[i].Y);
-            }
-            hpath.lineTo(curpath[0].X,curpath[0].Y);
-            pShape.holes.push(hpath);
-            obj.add(new THREE.Line(hpath.createPointsGeometry(),lineMaterial));
-            var thkLine=new THREE.Line(hpath.createPointsGeometry(),lineMaterial);
-            thkLine.position.z=thk;
-            obj.add(thkLine);
         }
 
     var options = {
