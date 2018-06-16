@@ -1,13 +1,14 @@
 
-function makeObject(id)
+meProject.makeCone=function(pp)
     {
 
+     console.log('run makeObject...')
      // get parameters
-     var dia_max=parseFloat($("input[name='dia_max:number']").val());
-     var dia_min=parseFloat($("input[name='dia_min:number']").val());
-     var thickness=parseFloat($("select[name='sheet_thk:number']").val());
-     var height=parseFloat($("input[name='height:number']").val());
-     var parts=parseFloat($("input[name='parts:number']").val());
+     var dia_max=parseFloat(pp.dia_max);
+     var dia_min=parseFloat(pp.dia_min);
+     var thickness=parseFloat(pp.sheet_thk);
+     var height=parseFloat(pp.height);
+     var parts=parseFloat(pp.parts);
      var delta_radius=(dia_max-dia_min)/2;
 
 
@@ -178,12 +179,16 @@ function makeObject(id)
 
     group.castShadow = group.receiveShadow = true;
 
-    objects[id]={"element":group}
-
-
+    console.log('... here is the object!!!')
     return group;
     };
 
+
+function makeObject(id)
+{
+    objects[id]={"element":meProject.makeCone(JSON.parse(localStorage.prj_data))}
+    return objects[id].element
+}
 
 function update_shape()
 {

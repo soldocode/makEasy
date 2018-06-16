@@ -1,16 +1,46 @@
-__author__ = 'Riccardo'
+###############################################################################
+# Bending - work.py - 2018
+#
+# Riccardo Soldini - riccardo.soldini@gmail.com
+###############################################################################
+
 
 import makEasy
+import math,g2
+from dxfwrite import DXFEngine as dxf
 
 def Execute ():
     job = makEasy.Job()
 
     return job
 
-work=makEasy.Work()
-work.Type='piegatura'
-work.Path='wBending'
-work.Title='Piegatura'
-work.Execute=Execute
+def WorkOut(args):
+    tLoad=5
+    tTool=10
+    tWork=1
+    tMove=1
+    tLook=2
 
-makEasy.WORKSET[work.Type]= work
+    res={"time":tLoad+tTool+tWork+tMove+tLook}
+    return res
+
+def getData (machine,blocks,parameters):
+    print (machine.Name)
+    return
+
+
+def getDXF (data):
+    dwg=g2.Drawing()
+    dwg.insertGeo('work',data['shape'])
+    print(dwg.boundBox)
+    dxf_result=dwg.getDXF()
+    return dxf_result
+
+
+work=makEasy.Work('Bending','Piegatura')
+work.Folder='wBending'
+work.Execute=Execute
+work.getData=getData
+work.getDXF=getDXF
+
+makEasy.WORKSET[work.Class]= work

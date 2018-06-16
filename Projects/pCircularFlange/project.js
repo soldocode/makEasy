@@ -76,16 +76,10 @@ meProject.makeCircularFlange= function(pp)
 }
 
 
-function getParameters()
-{
-    var p=JSON.parse(localStorage.prj_data)
-    return p
-}
-
 
 function makeObject(id)
 {
-    objects[id]={"element":meProject.makeCircularFlange(getParameters())}
+    objects[id]={"element":meProject.makeCircularFlange(JSON.parse(localStorage.prj_data))}
     return objects[id].element
 }
 

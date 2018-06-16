@@ -87,12 +87,13 @@ def Execute(self,parameters):
 
     #### create working sequence ###
     ws_plasma=makEasy.WorkStep(makEasy.WORKSET['PlasmaCut'])
+    ws_bend=makEasy.WorkStep(makEasy.WORKSET['Bending'])
 
     #### evaluate time production
     shape.update()
     ws_plasma.Data={'shape':shape}
 
-    work_flow=[ws_plasma]
+    work_flow=[ws_plasma,ws_bend]
 
     ### create item
     item=makEasy.Item()
