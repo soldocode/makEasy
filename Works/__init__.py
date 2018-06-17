@@ -2,4 +2,6 @@ __author__ = 'Riccardo'
 __all__ = ["wPlasmaCut",
            "wBending",
            "wPlateRolls",
-           "wDrill"]
+           "wDrill",
+           "wAssembly",
+           "wWeld"]
