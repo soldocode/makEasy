@@ -132,6 +132,7 @@ class Work(object):
         self.Id = None
         self.Title = wtitle
         self.Class = wclass
+        self.Machines=[]
 
     def __repr__(self):
         return  str(self.Class)
@@ -151,6 +152,9 @@ class WorkPlan(object):
         self.Positions = [] #?????
         self.JobSequence = []
         self.Times={}
+
+    def __repr__(self):
+        return  'Plan of '+str(self.ClassWork)+' on '+str(self.Machine)    
 
     def updateWorkData(self):#????????????????
         blocks=[]
@@ -181,9 +185,12 @@ class Machine(object):
         self.MacProperties={}
         self.TimeParameters={}
 
+    def __repr__(self):
+        return  str(self.Name)        
+
     def getParameters(self,material):
         return {}
-
+    
 
 def _getPrjNumber(f,d=None):
     if d==None:
