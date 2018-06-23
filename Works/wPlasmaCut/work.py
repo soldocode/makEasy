@@ -38,8 +38,11 @@ def WorkOut(args):
     return res
 
 
-def getData (machine,blocks,parameters):
+#def getData (machine,blocks,parameters):
+def updateWorkData (machine,blocks,parameters):
     print (machine.Name)
+    print (blocks)
+    print (parameters)
    
     kgmm3=makEasy.MATERIALS[parameters['Material']]['weight']
     total_area=0
@@ -52,7 +55,7 @@ def getData (machine,blocks,parameters):
 
     for b in blocks:
                
-        #print(b.Data)
+        print(b.Data)
         shape=b.Data['shape']
         l_cut=shape.perimeter['total']
         n_punch=1+len(shape.perimeter['internal'])
@@ -66,8 +69,8 @@ def getData (machine,blocks,parameters):
         p_dwld=parameters['DwLd']['CTime']
         p_dwld+=parameters['Load']['KFactor']*math.log(p_w+1)
         
-        #print('lunghezza taglio:',l_cut)
-        #print('numero sfondamenti:',n_punch)
+        print('lunghezza taglio:',l_cut)
+        print('numero sfondamenti:',n_punch)
         partial={}
         partial['Weight']=p_w
         for t in makEasy.TTimes:
@@ -79,6 +82,7 @@ def getData (machine,blocks,parameters):
         partial['Work']['Time']=p_work
         partial['DwLd']['Time']=p_dwld
         b.WorkData=partial
+        print ('b:',b.WorkData)
         
         
     num=len(blocks)    
@@ -108,7 +112,8 @@ def getDXF (data):
 work=makEasy.Work('PlasmaCut','Taglio Plasma')
 work.Folder='wPlasmaCut'
 work.Execute=Execute
-work.getData=getData
+#work.getData=getData
+work.updateWorkData=updateWorkData
 work.getDXF=getDXF
 
 makEasy.WORKSET[work.Class]= work

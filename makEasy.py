@@ -138,6 +138,19 @@ class Work(object):
         return  str(self.Class)
 
 
+class WorkStack(object):
+    def __init__(self,
+                 wclass=None,
+                 parameters={},
+                 items=[]):
+        self.Class=wclass
+        self.Parameters=parameters
+        self.Items=items
+
+    def __repr__(self):
+        return ('WorkStack of '+str(self.Class))
+
+    
 class WorkPlan(object):
     def __init__(self,
                  ID=None,
@@ -174,7 +187,7 @@ class WorkPlan(object):
             for step in i.WorkFlow:
                if self.ClassWork==step.Work:
                    blocks.append(step)
-        times=self.ClassWork.getData(self.Machine,blocks,self.Parameters)
+        times=self.ClassWork.updateWorkData(self.Machine,blocks,self.Parameters)
         return times
 
 
@@ -241,6 +254,7 @@ projectLibrary={}
 WORKSET = {}
 MATERIALS ={}
 MACHINES={}
+WORKSTACKS={}
 
 TTimes={"Load",
          "Tool",
@@ -254,6 +268,8 @@ from Works import *
 from Projects import *
 from Machines import *
 import Materials
+
+for w in WORKSET: WORKSTACKS[w]=[]
 
 
 def newItemFromProject(projectName,parameters,Id=None):
