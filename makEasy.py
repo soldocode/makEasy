@@ -73,6 +73,9 @@ class Item(object):
         self.FreeCADObj = None
         self.WorkFlow = []
 
+    def __repr__(self):
+        return self.Title+self.Id
+
 
     def ValidateProjectParameters(self):
         self.Project.ValidateParameters(self.ProjectParameters)
@@ -99,10 +102,11 @@ class Item(object):
 
 
 class WorkStep(object):
-    def __init__(self,w,d={}):
+    def __init__(self,w,p={},d={}):
         self.Id = None
         #self.Times = {'total':0}
         self.Work = w
+        self.Parameters = p
         self.Data = d
         self.WorkData = {}
         self.Item = None
@@ -142,14 +146,17 @@ class WorkStack(object):
     def __init__(self,
                  wclass=None,
                  parameters={},
-                 items=[]):
+                 items=[],
+                 worksteps=[]):
         self.Class=wclass
         self.Parameters=parameters
         self.Items=items
+        self.WorkSteps=worksteps
 
     def __repr__(self):
         return ('WorkStack of '+str(self.Class))
 
+        
     
 class WorkPlan(object):
     def __init__(self,
@@ -278,3 +285,9 @@ def newItemFromProject(projectName,parameters,Id=None):
     jp=jsonpickle.encode(item)
     return item
 
+
+def _appendWorkStep(workstep):
+    wclass=workstep.Work.Class
+    print(wclass)
+    WORKSTACKS[wclass].append(workstep)
+    return

@@ -1,7 +1,7 @@
 #***************************************************************************
 #*                                                                         *
 #*   Project TRONCO DI CONO                                                *
-#*   2015-2016                                                             *
+#*   2015-2018                                                             *
 #*   Riccardo Soldini <riccardo.soldini@gmail.com>                         *
 #*                                                                         *
 #* PARAMETERS:                                                             *
@@ -44,6 +44,7 @@ def Execute(self,parameters):
     d=float((parameters['dia_max']-parameters['dia_min']))/2
     h=float(parameters['height'])
     t=float(parameters['sheet_thk'])
+    n=parameters['parts']
     alfa=math.atan(d/h)
     h2=t*math.sin(alfa)
     h1=h-h2
@@ -83,34 +84,81 @@ def Execute(self,parameters):
     ch=[3,'Arc',2,1,'Line',6,'Arc',5,4,'Line',3]
     p_ext=Path(nd,ch)
     shape=Shape(p_ext)
-
-
-    #### create working sequence ###
-    ws_plasma=makEasy.WorkStep(makEasy.WORKSET['PlasmaCut'])
-    ws_bend=makEasy.WorkStep(makEasy.WORKSET['Bending'])
-    ws_assembly=makEasy.WorkStep(makEasy.WORKSET['Assembly'])
-    ws_weld=makEasy.WorkStep(makEasy.WORKSET['Weld'])
-
-    #### evaluate time production
     shape.update()
-    ws_plasma.Data={'shape':shape}
 
-    work_flow=[ws_plasma,ws_bend,ws_assembly,ws_weld]
+    if n==1:
+        ### create item
+        item=makEasy.Item()
+        item.Class="sheet"
+        item.ClassProperties={"Material":mat,"Thickness":t}
+        item.Weight=shape.area['total']*t*makEasy.MATERIALS[mat]['weight']
+        item.Project=makEasy.projectLibrary[projectName]
+        item.ProjectParameters=parameters
+        
+        #### create working sequence ###
+        ws_plasma=makEasy.WorkStep(makEasy.WORKSET['PlasmaCut'])
+        ws_bend=makEasy.WorkStep(makEasy.WORKSET['Bending'])
+        ws_assembly=makEasy.WorkStep(makEasy.WORKSET['Assembly'])
+        ws_weld=makEasy.WorkStep(makEasy.WORKSET['Weld'])
+        work_flow=[ws_plasma,ws_bend,ws_assembly,ws_weld]
+        item.WorkFlow=work_flow
 
-    ### create item
-    item=makEasy.Item()
-    item.Class="sheet"
-    item.ClassProperties={"Material":mat,"Thickness":t}
-    item.Weight=shape.area['total']*t*makEasy.MATERIALS[mat]['weight']
-    item.Project=makEasy.projectLibrary[projectName]
-    item.ProjectParameters=parameters
-    item.WorkFlow=work_flow
+        #### fill worksteps
+        #shape.update()
+        ws_plasma.Data={'shape':shape}
+        ws_plasma.Parameters={'sheet_mat':mat,'sheet_thk':t}
+
+    elif n>1:
+        ### create item
+        item=makEasy.Item()
+        item.Class="assembly"
+        item.ClassProperties={"ID":0}
+        item.Weight=0
+        item.Project=makEasy.projectLibrary[projectName]
+        item.ProjectParameters=parameters
+        parts=[]
+        
+        for i in range (0,n):
+            part=makEasy.Item()
+            part.Id='sub_'+str(i+1)
+            part.Class="sheet"
+            part.ClassProperties={"Material":mat,"Thickness":t}
+            part.Weight=shape.area['total']*t*makEasy.MATERIALS[mat]['weight']
+            item.Weight+=part.Weight
+            parts.append(part)
+            
+            #### create working sequence ###
+            ws_plasma=makEasy.WorkStep(makEasy.WORKSET['PlasmaCut'])
+            ws_bend=makEasy.WorkStep(makEasy.WORKSET['Bending'])
+            work_flow=[ws_plasma,ws_bend]
+            part.WorkFlow=work_flow
+
+            #### fill worksteps
+            #shape.update()
+            ws_plasma.Data={'shape':shape}
+            ws_plasma.Parameters={'sheet_mat':mat,'sheet_thk':t}
+            ws_plasma.Item=part
+
+        
+        #### create working sequence ###
+        ws_assembly=makEasy.WorkStep(makEasy.WORKSET['Assembly'])
+        ws_weld=makEasy.WorkStep(makEasy.WORKSET['Weld'])
+        work_flow=[ws_assembly,ws_weld]
+        item.WorkFlow=work_flow
+
+        #### fill worksteps
+        #shape.update()
+        ws_assembly.Data={'parts':parts}
+        ws_assembly.Parameters={'id':0}
+        ws_assembly.Item=item
+
+
     return item
 
 
 
 
-def Execute_old(self,parameters):
+def Execute_old_da_eliminare(self,parameters):
     self.ProjectExecuted=True
     ValidateParameters(self,parameters)
 
@@ -244,5 +292,4 @@ def Execute_old(self,parameters):
 
 project.ValidateParameters = types.MethodType( ValidateParameters, project )
 project.Execute = types.MethodType( Execute, project )
-#project.ExportDXF = types.MethodType( ExportDXF, project )
 makEasy.projectLibrary[project.Name]= project
