@@ -61,7 +61,7 @@ class Item(object):
                  Class=None,
                  Id=None):
         self.Id = Id
-        self.Class = Class  #'assembly','sheet','profile?','component'
+        self.Class = Class  #'assembly','sheet','profile','component'
         self.ClassProperty=None
         self.ClassProperties={}
         self.Title = Title
@@ -99,8 +99,7 @@ class Item(object):
 #        print jp
         return
 
-
-
+        
 class WorkStep(object):
     def __init__(self,w,p={},d={}):
         self.Id = None
@@ -163,14 +162,15 @@ class WorkPlan(object):
                  ID=None,
                  Title="WP",
                  Class=None):
-        self.ID = ID
-        self.Title = Title
-        self.ClassWork = Class
-        self.Machine = None
-        self.Parameters ={}
-        self.Items= []
-        self.Positions = [] #?????
-        self.JobSequence = []
+        self.ID=ID
+        self.Title=Title
+        self.ClassWork=Class
+        self.Machine=None
+        self.Parameters={}
+        self.MacParameters={}
+        self.Items=[]
+        self.Positions=[] #?????
+        self.JobSequence=[]
         self.Times={}
 
     def __repr__(self):
@@ -183,7 +183,7 @@ class WorkPlan(object):
             for step in i.WorkFlow:
                if self.ClassWork==step.Work:
                    blocks.append(step)
-        times=self.ClassWork.getData(self.Machine,blocks,self.Parameters)
+        times=self.ClassWork.getData(self.Machine,blocks,self.MacParameters)
         return times
 
 
@@ -194,7 +194,7 @@ class WorkPlan(object):
             for step in i.WorkFlow:
                if self.ClassWork==step.Work:
                    blocks.append(step)
-        times=self.ClassWork.updateWorkData(self.Machine,blocks,self.Parameters)
+        times=self.ClassWork.updateWorkData(self.Machine,blocks,self.MacParameters)
         return times
 
 

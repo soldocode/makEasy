@@ -68,10 +68,19 @@ def Execute(self,parameters):
     p_ext=Path(nd_ext,path)
     p_int=Path(nd_int,path)
     shape=Shape(p_ext,[p_int])
+    
+    
+    #### create item
+    item=ME.Item()
+    item.Class="sheet"
 
-    #### create working sequence ###
+    #### create plasma working step ###
     ws_plasma=ME.WorkStep(ME.WORKSET['PlasmaCut'])
-    ws_drill=ME.WorkStep(ME.WORKSET['drill'])
+    ws_plasma.Item=item
+    ws_plasma.Data={'shape':shape}
+    ws_plasma.Parameters={'sheet_mat':mat,'sheet_thk':thk}
+ 
+    #ws_drill=ME.WorkStep(ME.WORKSET['drill'])
 
 
     # holes #
@@ -117,11 +126,9 @@ def Execute(self,parameters):
     shape.update() 
     ws_plasma.Data={'shape':shape}
 
-    work_flow=[ws_plasma,ws_drill]
+    work_flow=[ws_plasma]
 
 
-    item=ME.Item()
-    item.Class="sheet"
     item.Weight=shape.area['total']*thk*ME.MATERIALS[mat]['weight']
     item.ClassProperties={"Material":parameters['sheet_mat'],"Thickness":parameters['sheet_thk']}
     item.Project=ME.projectLibrary[projectName]
