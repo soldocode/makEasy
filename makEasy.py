@@ -110,6 +110,8 @@ class WorkStep(object):
         self.WorkData = {}
         self.Item = None
         self.WorkPlan = None
+        self.Next=None
+        self.Done=False
         #self.Costs = {'total':0}
 
     def getDXF(self):
@@ -288,6 +290,6 @@ def newItemFromProject(projectName,parameters,Id=None):
 
 def _appendWorkStep(workstep):
     wclass=workstep.Work.Class
-    print(wclass)
+    #print(wclass)
     WORKSTACKS[wclass].append(workstep)
     return

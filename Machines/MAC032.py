@@ -50,7 +50,9 @@ mac.Parameters={
             }
         
 
-def getParameters(self,material,thk):
+def getParameters(self,work_parameters):
+    material=work_parameters['sheet_mat']
+    thk=work_parameters['sheet_thk']
     result={'Material':material,'Thickness':thk}
     id_mat=material+'|'+str(thk)
     for t in makEasy.TTimes:
