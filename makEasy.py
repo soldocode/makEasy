@@ -10,6 +10,7 @@ import jsonpickle, json
 from dxfwrite import DXFEngine as dxf
 import geoFun, math
 import sys,os
+from meTime import *
 
 if sys.version_info[0]==3:
     import io
@@ -99,7 +100,7 @@ class Item(object):
 #        print jp
         return
 
-        
+
 class WorkStep(object):
     def __init__(self,w,p={},d={}):
         self.Id = None
@@ -157,8 +158,8 @@ class WorkStack(object):
     def __repr__(self):
         return ('WorkStack of '+str(self.Class))
 
-        
-    
+
+
 class WorkPlan(object):
     def __init__(self,
                  ID=None,
@@ -176,7 +177,7 @@ class WorkPlan(object):
         self.Times={}
 
     def __repr__(self):
-        return  'Plan of '+str(self.ClassWork)+' on '+str(self.Machine)    
+        return  'Plan of '+str(self.ClassWork)+' on '+str(self.Machine)
 
     def updateWorkData(self):#????????????????
         blocks=[]
@@ -208,11 +209,11 @@ class Machine(object):
         self.TimeParameters={}
 
     def __repr__(self):
-        return  str(self.Name)        
+        return  str(self.Name)
 
     def getParameters(self,material):
         return {}
-    
+
 
 def _getPrjNumber(f,d=None):
     if d==None:
