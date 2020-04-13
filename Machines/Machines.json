@@ -1,0 +1,23 @@
+{
+  "KWH_EURO":0.33,
+  "Workstations":
+  {
+    "MAC099":
+    {
+      "Class":"LaserCut",
+      "Name":"Laser Ermaksan",
+      "Path":"\\10.0.0.199\Archivio\MACCHINE E IMPIANTI\LASER"
+    },
+    "MAC032":
+    {
+      "Class":"PlasmaCut",
+      "Name":"Plasma BBS",
+      "Path":"\\10.0.0.199\Archivio\MACCHINE E IMPIANTI\PLASMA"
+    },
+    "POS001":
+    {
+      "Class":"WeldingStation",
+      "Name":"ROS01"
+    }
+  }
+}

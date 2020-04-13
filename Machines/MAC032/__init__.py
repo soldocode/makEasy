@@ -1,10 +1,10 @@
 import makEasy
 import types
 
-mac=makEasy.Machine("MAC032","Impianto Taglio Plasma - BBS")
-makEasy.WORKSET['PlasmaCut'].Machines.append(mac)
+Machine=makEasy.Machine("MAC032","Impianto Taglio Plasma - BBS")
+makEasy.WORKSET['PlasmaCut'].Machines.append(Machine)
 
-mac.MacProperties= {
+Machine.MacProperties= {
     "XMax": 6000,
     "YMax": 2500,
     "HPrices":{"Load":23.00,
@@ -12,18 +12,18 @@ mac.MacProperties= {
                "Move":23.00,
                "Work":40.00,
                "Look":23.00,
-               "DwLd":23.00}          
+               "DwLd":23.00}
   }
 
-mac.Parameters={
+Machine.Parameters={
         "Load":{
             "DEFAULT":{"CTime":3,"KFactor":1.6,"KW":3.5}
                },
         "Tool":{
-            "DEFAULT": {"CTime": 3,"KW": 2.5}       
+            "DEFAULT": {"CTime": 3,"KW": 2.5}
                },
         "Move":{
-            "DEFAULT": {"CTime": 0.1,"Speed":8000,"KW": 13.5}   
+            "DEFAULT": {"CTime": 0.1,"Speed":8000,"KW": 13.5}
                },
         "Work":{
             "DEFAULT":  {"CTime":0.1,"Speed": 2000,"KW":40},
@@ -42,13 +42,13 @@ mac.Parameters={
             "S275JR|10":{"Speed": 2100,"KW": 31.50}
                },
         "Look":{
-            "DEFAULT": {"CTime": 1,"KW": 12}   
+            "DEFAULT": {"CTime": 1,"KW": 12}
                },
         "DwLd":{
-            "DEFAULT": {"CTime": 0.15,"KW": 3.5}   
-               }            
+            "DEFAULT": {"CTime": 0.15,"KW": 3.5}
+               }
             }
-        
+
 
 def getParameters(self,work_parameters):
     material=work_parameters['sheet_mat']
@@ -60,9 +60,9 @@ def getParameters(self,work_parameters):
         if id_mat in self.Parameters[t]:
             for p in self.Parameters[t][id_mat]:
                 result[t][p]=self.Parameters[t][id_mat][p]
-            
-    return result    
-    
 
-mac.getParameters = types.MethodType( getParameters, mac )
-makEasy.MACHINES[mac.Id]= mac
+    return result
+
+
+Machine.getParameters = types.MethodType( getParameters, Machine )
+makEasy.MACHINES[Machine.Id]= Machine

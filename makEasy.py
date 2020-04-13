@@ -7,8 +7,8 @@
 #***************************************************************************
 
 import jsonpickle, json
-from dxfwrite import DXFEngine as dxf
-import geoFun, math
+#from dxfwrite import DXFEngine as dxf
+#import geoFun, math
 import sys,os
 from meTime import *
 
@@ -213,6 +213,14 @@ class Machine(object):
 
     def getParameters(self,material):
         return {}
+
+
+class WorkStation(object):
+    def __init__(self,Id=None,Name=""):
+        self.Id=Id
+        self.Name=Name
+        self.Machine=None
+
 
 
 def _getPrjNumber(f,d=None):
