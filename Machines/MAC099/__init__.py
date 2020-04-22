@@ -20,6 +20,8 @@ def getTimeParameters(self,work_parameters):
     wt=mT.WorkTime()
     material=work_parameters['sheet_mat']
     thk=work_parameters['sheet_thk']
+    max_area=3.0*1.5
+    pa=work_parameters['total_area']/max_area
     #{'Material':material,'Thickness':thk}
     #id_mat=material+'|'+str(thk)
     #print(LASER_PARAMETERS)
@@ -27,11 +29,11 @@ def getTimeParameters(self,work_parameters):
     lp=LASER_PARAMETERS[LASER_MATERIALS[material]][str(thk)]
     mp=lp[list(lp.keys())[0]]
     print(mp)
-    wt.Load.TimeParameters=mT.TimeParameters(BlockTime=15)
+    wt.Load.TimeParameters=mT.TimeParameters(BlockTime=4+thk*pa)
     wt.Tool.TimeParameters=mT.TimeParameters(BlockTime=1)
-    wt.Work.TimeParameters=mT.TimeParameters(BlockTime=mp['PiercingTime']/3600,
+    wt.Work.TimeParameters=mT.TimeParameters(BlockTime=mp['PiercingTime']/60000,
                                              Speed=mp['Speed'])
-    wt.Move.TimeParameters=mT.TimeParameters(BlockTime=0.001,Speed=12000.0)
+    wt.Move.TimeParameters=mT.TimeParameters(BlockTime=0.027,Speed=120000.0)
     wt.Dwld.TimeParameters=mT.TimeParameters(BlockTime=30)
     #result['Speed']=mp['Speed']
     #result['PiercingTime']=mp['PiercingTime']

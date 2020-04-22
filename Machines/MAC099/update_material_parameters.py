@@ -87,3 +87,4 @@ for row in rows:
 f = open("MaterialParameters.json", "w")
 f.write(json.dumps(MatPar))
 f.close()
+conn.close()
