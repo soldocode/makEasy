@@ -2,6 +2,8 @@
 import makEasy
 import types,json
 import meTime as mT
+from pathlib import Path
+
 
 LASER_MATERIALS={'S275JR':'Steel',
                  'AISI304':'Stainless Steel',
@@ -9,7 +11,7 @@ LASER_MATERIALS={'S275JR':'Steel',
                  'GEN_ZINC':'Galvanized',
                  'GEN_ALLU':'Aluminium'}
 
-f = open(makEasy.FOLDER+"\\Machines\\MAC099\\MaterialParameters.json", "r")
+f = open(Path(makEasy.FOLDER+"/Machines/MAC099")/"MaterialParameters.json", "r")
 LASER_PARAMETERS=json.loads(f.read())
 f.close()
 
