@@ -6,6 +6,7 @@ from pathlib import Path
 
 
 LASER_MATERIALS={'S275JR':'Steel',
+                 'HB400':'Steel',
                  'AISI304':'Stainless Steel',
                  'AISI316':'Stainless Steel',
                  'GEN_ZINC':'Galvanized',
@@ -24,10 +25,6 @@ def getTimeParameters(self,work_parameters):
     thk=work_parameters['sheet_thk']
     max_area=3.0*1.5
     pa=work_parameters['total_area']/max_area
-    #{'Material':material,'Thickness':thk}
-    #id_mat=material+'|'+str(thk)
-    #print(LASER_PARAMETERS)
-    #print(LASER_MATERIALS[material])
     lp=LASER_PARAMETERS[LASER_MATERIALS[material]][str(thk)]
     mp=lp[list(lp.keys())[0]]
     print(mp)
@@ -37,17 +34,54 @@ def getTimeParameters(self,work_parameters):
                                              Speed=mp['Speed'])
     wt.Move.TimeParameters=mT.TimeParameters(BlockTime=0.027,Speed=120000.0)
     wt.Dwld.TimeParameters=mT.TimeParameters(BlockTime=30)
-    #result['Speed']=mp['Speed']
-    #result['PiercingTime']=mp['PiercingTime']
-
-    #for t in makEasy.TTimes:
-    #    result[t]=self.Parameters[t]["DEFAULT"]
-    #    if id_mat in self.Parameters[t]:
-    #        for p in self.Parameters[t][id_mat]:
-    #            result[t][p]=self.Parameters[t][id_mat][p]
-
     return wt
 
 
+def newMacWorkTime(self,work_parameters):
+    wt=mT.WorkTime()
+    wt.Load.HourlyCost=20.00
+    wt.Tool.HourlyCost=20.00
+    wt.Move.HourlyCost=60.00
+    wt.Work.HourlyCost=90.00
+    wt.Look.HourlyCost=20.00
+    wt.Dwld.HourlyCost=20.00
+    material=work_parameters['sheet_mat']
+    thk=work_parameters['sheet_thk']
+    max_area=3.0*1.5
+    
+    #load
+    pa=work_parameters['total_area']/max_area
+    wt.Load.TimeParameters=mT.TimeParameters(BlockTime=5+(thk/2)*pa)
+    print('load',wt.Load.TimeParameters)
+    
+    #tool
+    wt.Tool.TimeParameters=mT.TimeParameters(BlockTime=0.5)
+    print('tool',wt.Tool.TimeParameters)
+    
+    #move
+    wt.Move.TimeParameters=mT.TimeParameters(BlockTime=0.027,Speed=120000.0)
+    print('move',wt.Move.TimeParameters)
+    
+    #work
+    lp=LASER_PARAMETERS[LASER_MATERIALS[material]][str(thk)]
+    mp=lp[list(lp.keys())[0]]
+    print(mp)
+    wt.Work.TimeParameters=mT.TimeParameters(BlockTime=mp['PiercingTime']/60000,
+                                             Speed=mp['Speed'])
+    print('work',wt.Work.TimeParameters)
+
+    #look
+    wt.Look.TimeParameters=mT.TimeParameters(BlockTime=2)
+    print('look',wt.Look.TimeParameters)
+    
+    #dwld
+    wt.Dwld.TimeParameters=mT.TimeParameters(BlockTime=0.3,Speed=1/thk)
+    print('dwld',wt.Dwld.TimeParameters)
+    
+    return wt
+
+
+
 Machine.getTimeParameters = types.MethodType( getTimeParameters, Machine )
+Machine.newMacWorkTime = types.MethodType( newMacWorkTime, Machine )
 makEasy.MACHINES[Machine.Id]= Machine

@@ -23,3 +23,7 @@ plate_rolls
   dim 2500
   
   
+
+
+nononononono!!!
+trasferire i parametri macchina nella cartella macchina e creare qui un file con i riferimenti

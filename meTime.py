@@ -2,6 +2,8 @@
 
 
 class Time(object):
+    ''' This class define time entity ''' 
+    
     def __init__(self,minutes=0,seconds=0):
         self.Minutes=minutes
         self.HourlyCost=0
@@ -28,22 +30,22 @@ class Time(object):
             self.Minutes=self.TimeParameters.compute()
 
 
-
-
 class WorkTime(object):
-    def __init__(self,
-                 load=Time(),
-                 tool=Time(),
-                 move=Time(),
-                 work=Time(),
-                 look=Time(),
-                 dwld=Time()):
-        self.Load=load
-        self.Tool=tool
-        self.Move=move
-        self.Work=work
-        self.Look=look
-        self.Dwld=dwld
+    ''' It defines the entire spectrum of times that affect the work cycles:
+        - load - time spent in the upload activity
+        - tool - time taken to prepare the machine for work
+        - move - time taken to position the pieces or work tools
+        - work - time of actual work on the material
+        - look - time spent checking the quality of work
+        - dwld - time taken to unload the pieces at the end of the job '''
+        
+    def __init__(self):
+        self.Load=Time()
+        self.Tool=Time()
+        self.Move=Time()
+        self.Work=Time()
+        self.Look=Time()
+        self.Dwld=Time()
 
     def __add__(self,add_time):
         return(WorkTime(self.Load+add_time.Load,
@@ -81,6 +83,17 @@ class WorkTime(object):
     def HourlyCost(self):
         return self.Cost/self.TotalTime*60
 
+
+    @property
+    def DictTimes(self):
+        t={'Load':round(self.Load.Minutes,2)}
+        t['Tool']=round(self.Tool.Minutes,2)
+        t['Move']=round(self.Move.Minutes,2)
+        t['Work']=round(self.Work.Minutes,2)
+        t['Look']=round(self.Look.Minutes,2)
+        t['Dwld']=round(self.Dwld.Minutes,2)
+        return t
+
     def compute(self):
         self.Load.compute()
         self.Tool.compute()
@@ -89,20 +102,21 @@ class WorkTime(object):
         self.Look.compute()
         self.Dwld.compute()
 
+
 class TimeParameters(object):
     def __init__(self,
                  BlockTime=0,
                  NumBlock=0,
                  Length=0,
                  Speed=1):
-        self.BlockTime=BlockTime          #minutes
+        self.BlockTime=BlockTime  #minutes
         self.NumBlock=NumBlock    #times
-        self.Length=Length         #mm
-        self.Speed=Speed    #minutes/mm
+        self.Length=Length        #mm
+        self.Speed=Speed          #minutes/mm
         self.Time=self.compute()
 
     def __str__(self):
-        return 'Time computed: '+str(self.Time)+' minutes'
+        return 'BlockTime:'+str(self.BlockTime)+' - Speed:'+str(self.Speed)
 
     def compute (self):
         self.Time=self.BlockTime*self.NumBlock+self.Length/self.Speed
