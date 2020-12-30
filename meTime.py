@@ -81,7 +81,10 @@ class WorkTime(object):
 
     @property
     def HourlyCost(self):
-        return self.Cost/self.TotalTime*60
+        hc=0
+        if self.TotalTime>0:
+            hc=self.Cost/self.TotalTime*60
+        return hc
 
 
     @property
